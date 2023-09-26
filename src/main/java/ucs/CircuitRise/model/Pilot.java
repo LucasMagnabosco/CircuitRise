@@ -16,6 +16,7 @@ public class Pilot implements Serializable{
 	
 	private static final long serialVersionUID = 10L;
 	
+	
 	@Id
 	@Column(name="PILOT_NUM")
 	private int number;
