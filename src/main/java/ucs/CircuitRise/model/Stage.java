@@ -40,10 +40,10 @@ public class Stage implements Serializable{
 	
 	@Embedded
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-	private Collection<Pilot> pilots = new ArrayList<Pilot>();
+	private Collection<FinalTime> finalTime = new ArrayList<FinalTime>();
 	@Embedded
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-	private Set<Team> teams = new HashSet<Team>();
+	private Set<FastestLap> fastestLap = new HashSet<FastestLap>();
 	
 	
 	public int getId() {
@@ -76,18 +76,7 @@ public class Stage implements Serializable{
 	public void setLaps(int laps) {
 		this.laps = laps;
 	}
-	public Collection<Pilot> getPilots() {
-		return pilots;
-	}
-	public void setPilots(Collection<Pilot> pilots) {
-		this.pilots = pilots;
-	}
-	public Set<Team> getTeams() {
-		return teams;
-	}
-	public void setTeams(Set<Team> teams) {
-		this.teams = teams;
-	}
+
 	public int getLength() {
 		return length;
 	}

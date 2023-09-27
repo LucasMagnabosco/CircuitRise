@@ -4,6 +4,14 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalTime;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Embeddable
+@Table(name="FINAL_TIME")
+
 public class FinalTime implements Serializable{
 
 
