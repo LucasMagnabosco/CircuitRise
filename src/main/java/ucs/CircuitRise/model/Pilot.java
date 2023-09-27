@@ -1,10 +1,18 @@
 package ucs.CircuitRise.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -28,6 +36,13 @@ public class Pilot implements Serializable{
 	private int podiums;
 	@Column(name="PILOT_NAME")
 	private String name;
+	
+	@Embedded
+	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
+	private Collection<FinalTime> finalTime = new ArrayList<FinalTime>();
+	@Embedded
+	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
+	private Set<FastestLap> fastestLap = new HashSet<FastestLap>();
 	
 	
 	public void countPoints(int pontos) {

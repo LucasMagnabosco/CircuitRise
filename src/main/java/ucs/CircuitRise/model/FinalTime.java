@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalTime;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
@@ -14,8 +17,12 @@ import javax.persistence.Table;
 
 public class FinalTime implements Serializable{
 
-
 	private static final long serialVersionUID = 60L;
+	
+	@Id
+	@GeneratedValue
+	@Column(name="FINAL_TIME_ID")
+	private int id;
 	
 	private Duration finalTime;
 
