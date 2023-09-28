@@ -24,6 +24,7 @@ public class FinalTime implements Serializable{
 	@Column(name="FINAL_TIME_ID")
 	private int id;
 	
+	@Column(name="RESULTS")
 	private Duration finalTime;
 
 	public void setFinalTime(LocalTime lt) {

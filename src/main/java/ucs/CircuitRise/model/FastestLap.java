@@ -25,6 +25,7 @@ public class FastestLap implements Serializable{
 	@Column(name="FASTEST_LAP_ID")
 	private int id;
 	
+	@Column(name="LAP_RESULTS")
 	private Duration lap;
 
 	public void setFinalTime(LocalTime lt) {
