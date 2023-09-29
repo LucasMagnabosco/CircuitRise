@@ -60,5 +60,4 @@ public class RegisterScreen extends JPanel {
 		panel.add(lblNewLabel);
 	}
 	
-	
 }
