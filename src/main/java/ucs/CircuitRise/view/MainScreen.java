@@ -61,7 +61,6 @@ public class MainScreen extends JFrame {
 		contentPane.setBackground(new Color(177, 178, 181));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
-		//setContentPane(contentPane);
 
 		
 		JPanel header = new JPanel();
@@ -91,7 +90,7 @@ public class MainScreen extends JFrame {
 		btnRaceRegister.setBounds(657, 209, 193, 52);
 		btnRaceRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getContentPane().removeAll();
+	
 			}
 		});
 		contentPane.add(btnRaceRegister);
@@ -106,7 +105,6 @@ public class MainScreen extends JFrame {
 			}
 		});
 		contentPane.add(btnExit);
-		
 		cardPanel.add(contentPane, "Main");
 		cardLayout.show(cardPanel, "Main");
 	}

@@ -37,88 +37,66 @@ public class Team implements Serializable{
 	public void countPoints() {
 		this.points = pilot1.getPoints() + pilot2.getPoints();
 	}
-	
 	public void countWins() {
 		this.wins = pilot1.getWins() + pilot2.getWins();
 	}
-	
 	public void countsPodiums() {
 		this.podiums = pilot1.getPodiums() + pilot2.getPodiums();
 	}
-
 	
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public int getPoints() {
 		return points;
 	}
-
 	public void setPoints(int points) {
 		this.points = points;
 	}
-
 	public int getWins() {
 		return wins;
 	}
-
 	public void setWins(int wins) {
 		this.wins = wins;
 	}
-
 	public int getPodiums() {
 		return podiums;
 	}
-
 	public void setPodiums(int podiums) {
 		this.podiums = podiums;
 	}
-
 	public Pilot getPiloto1() {
 		return pilot1;
 	}
-
 	public void setPiloto1(Pilot piloto1) {
 		this.pilot1 = piloto1;
 	}
-
 	public Pilot getPiloto2() {
 		return pilot2;
 	}
-
 	public void setPiloto2(Pilot piloto2) {
 		this.pilot2 = piloto2;
 	}
-
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	public Pilot getPilot1() {
 		return pilot1;
 	}
-
 	public void setPilot1(Pilot pilot1) {
 		this.pilot1 = pilot1;
 	}
-
 	public Pilot getPilot2() {
 		return pilot2;
 	}
-
 	public void setPilot2(Pilot pilot2) {
 		this.pilot2 = pilot2;
 	}
 
-	
-	
 }

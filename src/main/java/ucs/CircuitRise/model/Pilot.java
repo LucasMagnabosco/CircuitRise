@@ -54,8 +54,6 @@ public class Pilot implements Serializable{
 	public void countPodiums() {
 		this.podiums++;
 	}
-	
-	
 	public int getNumber() {
 		return number;
 	}
