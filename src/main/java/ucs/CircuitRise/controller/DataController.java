@@ -1,12 +1,19 @@
 package ucs.CircuitRise.controller;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
 import ucs.CircuitRise.exceptions.ExcecaoEspacoVazio;
 import ucs.CircuitRise.exceptions.ExcecaoNotNumber;
 import ucs.CircuitRise.exceptions.ExcecaoObjetoJaCadastrado;
 import ucs.CircuitRise.model.Pilot;
+
 
 
 public class DataController {
@@ -25,6 +32,25 @@ public class DataController {
 		util.commit(manager, pilot);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public Object[][] pilotsToArray() {
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from Pilot");
+		List<Pilot> pilots =(List<Pilot>) q.getResultList();
+		Object[][] pilotsArray= new Object[pilots.size()][2];
+		for(int i=0; i<pilots.size();i++) {
+			pilotsArray[i][0] = pilots.get(i).getName();
+			if(pilots.get(i).getTeam() != null) {
+				pilotsArray[i][1] = pilots.get(i).getTeam().getName();
+			}else {
+				pilotsArray[i][1] = "";
+			}
+		}
+		session.close();
+		manager.close();
+		return pilotsArray;
+	}
 	
 	
 }

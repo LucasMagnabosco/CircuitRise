@@ -1,6 +1,7 @@
 package ucs.CircuitRise.view;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import ucs.CircuitRise.controller.DataController;
@@ -25,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.awt.SystemColor;
 
 
 
@@ -42,6 +44,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 	private JTable table_pilot;
 	private JTable table_team;
 	private RegisterScreen self = this;
+	private JScrollPane rolagem1, rolagem2;
 	
 	DataController data = new DataController();
 	
@@ -95,12 +98,30 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		add(Team_form);
 
 		
-		
+		Object[][] rows = data.pilotsToArray();
+		String[] columns = {"Pilotos", "Equipe"};
 		table_pilot = new JTable();
-		table_pilot.setModel(new DefaultTableModel(
+		table_pilot.setModel(new DefaultTableModel(rows, columns));
+		table_pilot.getColumnModel().getColumn(0).setPreferredWidth(109);
+		table_pilot.setShowVerticalLines(false);
+		table_pilot.setFont(new Font("Arial", Font.PLAIN, 11));
+		table_pilot.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		table_pilot.setBounds(134, 294, 209, 232);
+		table_pilot.setBackground(new Color(195, 196, 199));
+		rolagem1 = new JScrollPane(table_pilot);
+		rolagem1.setBackground(new Color(195, 196, 199));
+		rolagem1.setBounds(125, 272, 209, 232);
+		
+		add(rolagem1);
+		
+		JLabel lblTableName = new JLabel("Pilotos");
+		lblTableName.setFont(new Font("Arial", Font.BOLD, 16));
+		lblTableName.setBounds(201, 247, 63, 14);
+		add(lblTableName);
+		
+		table_team = new JTable();
+		table_team.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Verstappen"},
-				{null},
 				{null},
 				{null},
 			},
@@ -108,29 +129,14 @@ public class RegisterScreen extends JPanel implements ActionListener{
 				"New column"
 			}
 		));
-		table_pilot.getColumnModel().getColumn(0).setPreferredWidth(109);
-		table_pilot.getColumnModel().getColumn(0).setMinWidth(21);
-		table_pilot.setShowVerticalLines(false);
-		table_pilot.setFont(new Font("Arial", Font.PLAIN, 11));
-		table_pilot.setBackground(new Color(195, 196, 199));
-		table_pilot.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-		table_pilot.setBounds(134, 294, 209, 232);
-		add(table_pilot);
-		
-		JLabel lblTableName = new JLabel("Pilotos");
-		lblTableName.setFont(new Font("Arial", Font.BOLD, 16));
-		lblTableName.setBounds(200, 269, 63, 14);
-		add(lblTableName);
-		
-		table_team = new JTable();
-		table_team.setBounds(382, 294, 209, 232);
+		table_team.setBounds(382, 273, 209, 232);
 		table_team.setBackground(new Color(195, 196, 199));
 		table_team.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		add(table_team);
 		
 		JLabel lblNewLabel_1 = new JLabel("Equipes");
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(455, 269, 63, 16);
+		lblNewLabel_1.setBounds(454, 246, 63, 16);
 		add(lblNewLabel_1);
 	}
 	
@@ -205,6 +211,11 @@ public class RegisterScreen extends JPanel implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					data.registerPilot(tfPilotName.getText(), tfNum.getText());
+					DefaultTableModel model = (DefaultTableModel) table_pilot.getModel();
+					String[] columns = {"Pilotos", "Equipe"};
+					model.setDataVector(data.pilotsToArray(), columns);
+					model.fireTableDataChanged();
+					JOptionPane.showMessageDialog(self, "Piloto cadastrado com sucesso");
 				} catch (ExcecaoEspacoVazio e1) {
 					JOptionPane.showMessageDialog(self, e1.getMessage());
 				} catch (ExcecaoNotNumber e1) {

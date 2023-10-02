@@ -52,6 +52,8 @@ public class Pilot implements Serializable{
 		this.name = name;
 		this.number = num;
 	}
+	public Pilot() {
+	}
 	
 	public void countPoints(int pontos) {
 		this.points += pontos;
@@ -92,5 +94,24 @@ public class Pilot implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
+	public Team getTeam() {
+		return team;
+	}
+	public void setTeam(Team team) {
+		this.team = team;
+	}
+	public Collection<FinalTime> getFinalTime() {
+		return finalTime;
+	}
+	public void setFinalTime(Collection<FinalTime> finalTime) {
+		this.finalTime = finalTime;
+	}
+	public Set<FastestLap> getFastestLap() {
+		return fastestLap;
+	}
+	public void setFastestLap(Set<FastestLap> fastestLap) {
+		this.fastestLap = fastestLap;
+	}
+	
 	
 }
