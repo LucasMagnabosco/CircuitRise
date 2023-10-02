@@ -27,28 +27,14 @@ public class MainScreen extends JFrame {
 	private JLabel lblNewLabel;
 	private CardLayout cardLayout;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainScreen frame = new MainScreen();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the frame.
 	 */
 	public MainScreen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 960, 540);
+		setBounds(100, 100, 960, 580);
 		
 		cardLayout = new CardLayout();
 		cardPanel = new JPanel(cardLayout);

@@ -12,6 +12,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -37,6 +38,9 @@ public class Pilot implements Serializable{
 	@Column(name="PILOT_NAME")
 	private String name;
 	
+	@ManyToOne
+    private Team team;
+	
 	@Embedded
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	private Collection<FinalTime> finalTime = new ArrayList<FinalTime>();
@@ -44,6 +48,10 @@ public class Pilot implements Serializable{
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	private Set<FastestLap> fastestLap = new HashSet<FastestLap>();
 	
+	public Pilot(String name, int num) {
+		this.name = name;
+		this.number = num;
+	}
 	
 	public void countPoints(int pontos) {
 		this.points += pontos;

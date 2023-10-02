@@ -1,11 +1,17 @@
 package ucs.CircuitRise.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,26 +27,23 @@ public class Team implements Serializable{
 	@Id
 	@Column(name="TEAM_ID")
 	private int id;
-	@Column(name="TEMA_POINTS")
+	@Column(name="TEAM_POINTS")
 	private int points;
 	@Column(name="TEAM_WINS")
 	private int wins;
-	@Column(name="TEAM_POINTS")
+	@Column(name="TEAM_PODIUMS")
 	private int podiums;
 	
-	@Embedded
-	private Pilot pilot1;
-	@Embedded
-	private Pilot pilot2;
+	
+	@OneToMany(mappedBy = "team")
+    private List<Pilot> pilots;
 	
 	
-	public void countPoints() {
+	public void teamUpdate() {
+		Pilot pilot1 = pilots.get(0);
+		Pilot pilot2 = pilots.get(1);
 		this.points = pilot1.getPoints() + pilot2.getPoints();
-	}
-	public void countWins() {
 		this.wins = pilot1.getWins() + pilot2.getWins();
-	}
-	public void countsPodiums() {
 		this.podiums = pilot1.getPodiums() + pilot2.getPodiums();
 	}
 	
@@ -68,35 +71,23 @@ public class Team implements Serializable{
 	public void setPodiums(int podiums) {
 		this.podiums = podiums;
 	}
-	public Pilot getPiloto1() {
-		return pilot1;
-	}
-	public void setPiloto1(Pilot piloto1) {
-		this.pilot1 = piloto1;
-	}
-	public Pilot getPiloto2() {
-		return pilot2;
-	}
-	public void setPiloto2(Pilot piloto2) {
-		this.pilot2 = piloto2;
-	}
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public Pilot getPilot1() {
-		return pilot1;
+		return pilots.get(0);
 	}
 	public void setPilot1(Pilot pilot1) {
-		this.pilot1 = pilot1;
+		pilots.set(0, pilot1);
 	}
 	public Pilot getPilot2() {
-		return pilot2;
+		return pilots.get(1);
 	}
 	public void setPilot2(Pilot pilot2) {
-		this.pilot2 = pilot2;
+		pilots.set(1, pilot2);
 	}
-
 }
