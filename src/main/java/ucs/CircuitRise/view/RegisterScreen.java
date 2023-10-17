@@ -41,6 +41,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 	private JTextField tfPilotName;
 	private JTextField tfTeamName;
 	private JTextField tfNum;
+	private JTextField tfId;
 	private JTable table_pilot;
 	private JTable table_team;
 	private RegisterScreen self = this;
@@ -97,6 +98,15 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		add(Pilot_form);
 		add(Team_form);
 
+		JLabel lblTableName = new JLabel("Pilotos");
+		lblTableName.setFont(new Font("Arial", Font.BOLD, 16));
+		lblTableName.setBounds(201, 247, 63, 14);
+		add(lblTableName);
+		
+		JLabel lblTableName1 = new JLabel("Equipes");
+		lblTableName1.setFont(new Font("Arial", Font.BOLD, 16));
+		lblTableName1.setBounds(453, 246, 63, 16);
+		add(lblTableName1);
 		
 		Object[][] rows = data.pilotsToArray();
 		String[] columns = {"Pilotos", "Equipe"};
@@ -111,33 +121,22 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		rolagem1 = new JScrollPane(table_pilot);
 		rolagem1.setBackground(new Color(195, 196, 199));
 		rolagem1.setBounds(125, 272, 209, 232);
-		
 		add(rolagem1);
 		
-		JLabel lblTableName = new JLabel("Pilotos");
-		lblTableName.setFont(new Font("Arial", Font.BOLD, 16));
-		lblTableName.setBounds(201, 247, 63, 14);
-		add(lblTableName);
-		
+		Object[][] rows2 = data.teamsToArray();
+		String[] columns2 = {"Equipe"};
 		table_team = new JTable();
-		table_team.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null},
-				{null},
-			},
-			new String[] {
-				"New column"
-			}
-		));
+		table_team.setModel(new DefaultTableModel(rows2, columns2));
+		table_team.setShowVerticalLines(false);
 		table_team.setBounds(382, 273, 209, 232);
 		table_team.setBackground(new Color(195, 196, 199));
+		table_team.setFont(new Font("Arial", Font.PLAIN, 11));
 		table_team.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-		add(table_team);
+		rolagem2 = new JScrollPane(table_team);
+		rolagem2.setBackground(new Color(195, 196, 199));
+		rolagem2.setBounds(379, 272, 209, 232);
+		add(rolagem2);
 		
-		JLabel lblNewLabel_1 = new JLabel("Equipes");
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(454, 246, 63, 16);
-		add(lblNewLabel_1);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -184,7 +183,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		JLabel lblName = new JLabel("Nome");
 		lblName.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblName.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblName.setBounds(293, 8, 27, 14);
+		lblName.setBounds(278, 7, 27, 14);
 		pilot_panel.add(lblName);
 		
 		tfPilotName = new JTextField();
@@ -200,7 +199,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		tfNum.setColumns(10);
 		
 		JLabel lblNum = new JLabel("Número");
-		lblNum.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNum.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNum.setFont(new Font("Arial", Font.PLAIN, 11));
 		lblNum.setBounds(278, 38, 42, 14);
 		pilot_panel.add(lblNum);
@@ -240,7 +239,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		JLabel lblName = new JLabel("Nome");
 		lblName.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblName.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblName.setBounds(293, 8, 27, 14);
+		lblName.setBounds(261, 7, 27, 14);
 		team_panel.add(lblName);
 		
 		tfTeamName = new JTextField();
@@ -249,11 +248,31 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		team_panel.add(tfTeamName);
 		tfTeamName.setColumns(10);
 		
+		tfId = new JTextField();
+		tfId.setFont(new Font("Arial", Font.PLAIN, 11));
+		tfId.setBounds(334, 36, 36, 20);
+		team_panel.add(tfId);
+		tfId.setColumns(10);
+		
+		JLabel lblId = new JLabel("Identificador");
+		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblId.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblId.setBounds(261, 38, 59, 14);
+		team_panel.add(lblId);
+		
 		JButton btnTeamRegister = new JButton("Cadastrar");
 		btnTeamRegister.setFont(new Font("Arial", Font.PLAIN, 11));
 		btnTeamRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				try {
+					data.registerTeam(tfTeamName.getText(), tfId.getText());
+					DefaultTableModel model = (DefaultTableModel) table_team.getModel();
+					String[] columns = {"Equipes"};
+					model.setDataVector(data.teamsToArray(), columns);
+					model.fireTableDataChanged();
+				} catch (ExcecaoEspacoVazio | ExcecaoObjetoJaCadastrado | ExcecaoNotNumber e1) {
+					JOptionPane.showMessageDialog(self, e1.getMessage());
+				}
 			}
 		});
 		btnTeamRegister.setBounds(620, 57, 100, 23);

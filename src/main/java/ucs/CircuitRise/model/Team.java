@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -38,15 +40,27 @@ public class Team implements Serializable{
 	@OneToMany(mappedBy = "team")
     private List<Pilot> pilots;
 	
+	public Team() {
+	}
+	
+	public Team(String name, int id) {
+		this.name = name;
+		this.id = id;
+	}
 	
 	public void teamUpdate() {
-		Pilot pilot1 = pilots.get(0);
+		Pilot pilot1 = pilots.get(0);			
 		Pilot pilot2 = pilots.get(1);
 		this.points = pilot1.getPoints() + pilot2.getPoints();
 		this.wins = pilot1.getWins() + pilot2.getWins();
 		this.podiums = pilot1.getPodiums() + pilot2.getPodiums();
 	}
-	
+	public void addPilot(Pilot p) {
+		pilots.add(p);
+	}
+	public void removePilot(Pilot p) {
+		pilots.remove(p);
+	}
 	public String getName() {
 		return name;
 	}
