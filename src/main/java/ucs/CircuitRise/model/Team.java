@@ -1,17 +1,12 @@
 package ucs.CircuitRise.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -36,8 +31,8 @@ public class Team implements Serializable{
 	@Column(name="TEAM_PODIUMS")
 	private int podiums;
 	
-	
-	@OneToMany(mappedBy = "team")
+	@Embedded
+	@OneToMany(cascade={CascadeType.ALL})
     private List<Pilot> pilots;
 	
 	public Team() {
@@ -61,6 +56,12 @@ public class Team implements Serializable{
 	public void removePilot(Pilot p) {
 		pilots.remove(p);
 	}
+	
+	public List<Pilot> getPilots() {
+		return pilots;
+	}
+
+
 	public String getName() {
 		return name;
 	}

@@ -5,6 +5,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import ucs.CircuitRise.controller.DataController;
+import ucs.CircuitRise.exceptions.ExcecaoEquipeCheia;
 import ucs.CircuitRise.exceptions.ExcecaoEspacoVazio;
 import ucs.CircuitRise.exceptions.ExcecaoNotNumber;
 import ucs.CircuitRise.exceptions.ExcecaoObjetoJaCadastrado;
@@ -115,12 +116,16 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		table_pilot.getColumnModel().getColumn(0).setPreferredWidth(109);
 		table_pilot.setShowVerticalLines(false);
 		table_pilot.setFont(new Font("Arial", Font.PLAIN, 11));
-		table_pilot.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		table_pilot.setBounds(134, 294, 209, 232);
 		table_pilot.setBackground(new Color(195, 196, 199));
+		table_pilot.getTableHeader().setBackground(new Color(195, 196, 199));
+		table_pilot.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 		rolagem1 = new JScrollPane(table_pilot);
 		rolagem1.setBackground(new Color(195, 196, 199));
+		rolagem1.getViewport().setBackground(new Color(195, 196, 199));
+		rolagem1.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 		rolagem1.setBounds(125, 272, 209, 232);
+		rolagem1.getVerticalScrollBar().setBackground(Color.GRAY);
 		add(rolagem1);
 		
 		Object[][] rows2 = data.teamsToArray();
@@ -131,11 +136,23 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		table_team.setBounds(382, 273, 209, 232);
 		table_team.setBackground(new Color(195, 196, 199));
 		table_team.setFont(new Font("Arial", Font.PLAIN, 11));
-		table_team.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		table_team.getTableHeader().setBackground(new Color(195, 196, 199));
+		table_team.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 		rolagem2 = new JScrollPane(table_team);
-		rolagem2.setBackground(new Color(195, 196, 199));
+		rolagem2.getViewport().setBackground(new Color(195, 196, 199));
+		rolagem2.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 		rolagem2.setBounds(379, 272, 209, 232);
 		add(rolagem2);
+		
+		JButton btnDelete = new JButton("Remover");
+		btnDelete.setBounds(682, 332, 100, 23);
+		btnDelete.addActionListener(this);
+		add(btnDelete);
+		
+		JButton btnRelate = new JButton("Relacionar");
+		btnRelate.setBounds(682, 374, 100, 23);
+		btnRelate.addActionListener(this);
+		add(btnRelate);
 		
 	}
 	
@@ -157,7 +174,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 			}
 			
 		}
-		//try {
+		try {
 			if(teste.equals("Pilotos")) {
 				Team_form.setVisible(false);
 				Pilot_form.setVisible(true);
@@ -166,10 +183,24 @@ public class RegisterScreen extends JPanel implements ActionListener{
 				Pilot_form.setVisible(false);
 				Team_form.setVisible(true);
 			}
-		//}
-		//catch {
-			
-		//}
+			else if(teste.equals("Remover")){
+			}
+			else if(teste.equals("Relacionar")) {
+				int row1 = table_pilot.getSelectedRow();
+				int row2 = table_team.getSelectedRow();
+				if(row1 == -1 || row2 == -1) {
+					JOptionPane.showMessageDialog(self, "Pelo menos uma das opções não foram escolhidas");
+				}else {
+					String pilot = table_pilot.getValueAt(row1, 0).toString();
+					String team = table_team.getValueAt(row2, 0).toString();
+					data.relatePilot(team, pilot);
+					updatePilot();
+				}
+			}
+		}
+		catch (ExcecaoEquipeCheia e1){
+			JOptionPane.showMessageDialog(self, e1.getMessage());
+		}
 		
 	}
 	
@@ -210,10 +241,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					data.registerPilot(tfPilotName.getText(), tfNum.getText());
-					DefaultTableModel model = (DefaultTableModel) table_pilot.getModel();
-					String[] columns = {"Pilotos", "Equipe"};
-					model.setDataVector(data.pilotsToArray(), columns);
-					model.fireTableDataChanged();
+					updatePilot();
 					JOptionPane.showMessageDialog(self, "Piloto cadastrado com sucesso");
 				} catch (ExcecaoEspacoVazio e1) {
 					JOptionPane.showMessageDialog(self, e1.getMessage());
@@ -266,10 +294,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					data.registerTeam(tfTeamName.getText(), tfId.getText());
-					DefaultTableModel model = (DefaultTableModel) table_team.getModel();
-					String[] columns = {"Equipes"};
-					model.setDataVector(data.teamsToArray(), columns);
-					model.fireTableDataChanged();
+					updateTeam();
 				} catch (ExcecaoEspacoVazio | ExcecaoObjetoJaCadastrado | ExcecaoNotNumber e1) {
 					JOptionPane.showMessageDialog(self, e1.getMessage());
 				}
@@ -279,5 +304,18 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		team_panel.add(btnTeamRegister);
 		
 		return team_panel;
+	}
+	
+	public void updateTeam() {
+		DefaultTableModel model = (DefaultTableModel) table_team.getModel();
+		String[] columns = {"Equipes"};
+		model.setDataVector(data.teamsToArray(), columns);
+		model.fireTableDataChanged();
+	}
+	public void updatePilot() {
+		DefaultTableModel model = (DefaultTableModel) table_pilot.getModel();
+		String[] columns = {"Pilotos", "Equipe"};
+		model.setDataVector(data.pilotsToArray(), columns);
+		model.fireTableDataChanged();
 	}
 }

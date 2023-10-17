@@ -9,12 +9,12 @@ import javax.persistence.Persistence;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import ucs.CircuitRise.exceptions.ExcecaoEquipeCheia;
 import ucs.CircuitRise.exceptions.ExcecaoEspacoVazio;
 import ucs.CircuitRise.exceptions.ExcecaoNotNumber;
 import ucs.CircuitRise.exceptions.ExcecaoObjetoJaCadastrado;
 import ucs.CircuitRise.model.Pilot;
 import ucs.CircuitRise.model.Team;
-
 
 
 public class DataController {
@@ -33,6 +33,55 @@ public class DataController {
 		util.commit(manager, pilot);
 	}
 	
+	
+	
+	public void registerTeam(String name, String sid) throws ExcecaoEspacoVazio, ExcecaoObjetoJaCadastrado, ExcecaoNotNumber {
+		util.check(name);
+		util.checkNum(sid);
+		int id = Integer.parseInt(sid);
+		EntityManager manager = factory.createEntityManager();
+		String frase = "select count(*) from Team where team_name = :value";
+		util.duplicates(manager,  frase,  name);
+		Team team = new Team(name, id);
+		util.commit(manager, team);
+	}
+	
+	public void relatePilot(String teamName, String pilotName) throws ExcecaoEquipeCheia {
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from Pilot where pilot_name = :value");
+		q.setParameter("value", pilotName);
+		Pilot pilot = (Pilot) q.getSingleResult();
+		q = session.createQuery("from Team where team_name = :value");
+		q.setParameter("value", teamName);
+		Team team = (Team) q.getSingleResult();
+		if(team.getPilots().size() >2) {
+			throw new ExcecaoEquipeCheia();
+		}
+		team.addPilot(pilot);
+		pilot.setTeam(team);
+		manager.getTransaction().begin();	
+		manager.merge(team);
+		manager.merge(pilot);
+		manager.getTransaction().commit();
+		manager.close();
+		session.close();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Object[][] teamsToArray(){
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from Team");
+		List<Team> teams = (List<Team>) q.getResultList();
+		Object [][] teamsArray = new Object[teams.size()][1];
+		for(int i=0; i<teams.size();i++) {
+			teamsArray[i][0] = teams.get(i).getName();
+		}
+		session.close();
+		manager.close();
+		return teamsArray;
+	}
 	@SuppressWarnings("unchecked")
 	public Object[][] pilotsToArray() {
 		EntityManager manager = factory.createEntityManager();
@@ -51,32 +100,6 @@ public class DataController {
 		session.close();
 		manager.close();
 		return pilotsArray;
-	}
-	
-	public void registerTeam(String name, String sid) throws ExcecaoEspacoVazio, ExcecaoObjetoJaCadastrado, ExcecaoNotNumber {
-		util.check(name);
-		util.checkNum(sid);
-		int id = Integer.parseInt(sid);
-		EntityManager manager = factory.createEntityManager();
-		String frase = "select count(*) from Team where team_name = :value";
-		util.duplicates(manager,  frase,  name);
-		Team team = new Team(name, id);
-		util.commit(manager, team);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Object[][] teamsToArray(){
-		EntityManager manager = factory.createEntityManager();
-		Session session = manager.unwrap(Session.class);
-		Query<?> q = session.createQuery("from Team");
-		List<Team> teams = (List<Team>) q.getResultList();
-		Object [][] teamsArray = new Object[teams.size()][1];
-		for(int i=0; i<teams.size();i++) {
-			teamsArray[i][0] = teams.get(i).getName();
-		}
-		session.close();
-		manager.close();
-		return teamsArray;
 	}
 	
 }
