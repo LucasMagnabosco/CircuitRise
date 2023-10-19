@@ -184,6 +184,27 @@ public class RegisterScreen extends JPanel implements ActionListener{
 				Team_form.setVisible(true);
 			}
 			else if(teste.equals("Remover")){
+				int rowp = table_pilot.getSelectedRow();
+				int rowt = table_team.getSelectedRow();
+				if(rowp != -1 && rowt != -1) {
+					String pilot = table_pilot.getValueAt(rowp, 0).toString();
+					String team = table_team.getValueAt(rowt, 0).toString();
+					data.deleteRelation(team, pilot);
+					updatePilot();
+				}
+				else if(rowp != -1 && rowt == -1) {
+					String pilot = table_pilot.getValueAt(rowp, 0).toString();
+					data.deletePilot(pilot);
+					updatePilot();
+				}
+				else if(rowp == -1 && rowt != -1) {
+					String team = table_team.getValueAt(rowt, 0).toString();
+					data.deleteTeam(team);
+					updateTeam();
+				}
+				else {
+					JOptionPane.showMessageDialog(self, "Pelo menos uma das opções não foram escolhidas");
+				}
 			}
 			else if(teste.equals("Relacionar")) {
 				int row1 = table_pilot.getSelectedRow();

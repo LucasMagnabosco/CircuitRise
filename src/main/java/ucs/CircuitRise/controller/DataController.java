@@ -67,6 +67,50 @@ public class DataController {
 		manager.close();
 		session.close();
 	}
+	public void deleteRelation(String teamName, String pilotName) {
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from Pilot where pilot_name = :value");
+		q.setParameter("value", pilotName);
+		Pilot pilot = (Pilot) q.getSingleResult();
+		q = session.createQuery("from Team where team_name = :value");
+		q.setParameter("value", teamName);
+		Team team = (Team) q.getSingleResult();
+		pilot.setTeam(null);
+		team.removePilot(pilot);
+		manager.getTransaction().begin();	
+		manager.merge(team);
+		manager.merge(pilot);
+		manager.getTransaction().commit();
+		manager.close();
+		session.close();
+	}
+	
+	public void deletePilot(String pilotName) {
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from Pilot where pilot_name = :value");
+		q.setParameter("value", pilotName);
+		Pilot pilot = (Pilot) q.getSingleResult();
+		manager.getTransaction().begin();	
+		manager.remove(pilot);
+		manager.getTransaction().commit();
+		manager.close();
+		session.close();
+	}
+	
+	public void deleteTeam(String teamName) {
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from Team where team_name = :value");
+		q.setParameter("value", teamName);
+		Team team = (Team) q.getSingleResult();
+		manager.getTransaction().begin();	
+		manager.remove(team);
+		manager.getTransaction().commit();
+		manager.close();
+		session.close();
+	}
 	
 	@SuppressWarnings("unchecked")
 	public Object[][] teamsToArray(){
