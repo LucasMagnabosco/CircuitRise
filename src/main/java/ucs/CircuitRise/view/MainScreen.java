@@ -1,19 +1,14 @@
 package ucs.CircuitRise.view;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
 import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
-
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -42,6 +37,8 @@ public class MainScreen extends JFrame {
 		
 		RegisterScreen reg = new RegisterScreen(this);
 		cardPanel.add(reg, "Register");
+		StageRegister stg = new StageRegister(this);
+		cardPanel.add(stg, "Stage");
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(177, 178, 181));
@@ -76,7 +73,7 @@ public class MainScreen extends JFrame {
 		btnRaceRegister.setBounds(657, 209, 193, 52);
 		btnRaceRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-	
+				cardLayout.show(cardPanel, "Stage");
 			}
 		});
 		contentPane.add(btnRaceRegister);
