@@ -14,6 +14,7 @@ import ucs.CircuitRise.exceptions.ExcecaoEspacoVazio;
 import ucs.CircuitRise.exceptions.ExcecaoNotNumber;
 import ucs.CircuitRise.exceptions.ExcecaoObjetoJaCadastrado;
 import ucs.CircuitRise.model.Pilot;
+import ucs.CircuitRise.model.Stage;
 import ucs.CircuitRise.model.Team;
 
 
@@ -94,6 +95,19 @@ public class DataController {
 		Pilot pilot = (Pilot) q.getSingleResult();
 		manager.getTransaction().begin();	
 		manager.remove(pilot);
+		manager.getTransaction().commit();
+		manager.close();
+		session.close();
+	}
+	
+	public void deleteStage(String stageName) {
+		EntityManager manager = factory.createEntityManager(); 	
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from stage where stage_name = :value");
+		q.setParameter("value", stageName);
+		Stage stage = (Stage) q.getSingleResult();
+		manager.getTransaction().begin();	
+		manager.remove(stage);
 		manager.getTransaction().commit();
 		manager.close();
 		session.close();
