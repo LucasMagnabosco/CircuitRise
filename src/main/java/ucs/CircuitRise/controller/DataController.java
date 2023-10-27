@@ -47,6 +47,10 @@ public class DataController {
 		util.commit(manager, team);
 	}
 	
+	public void registerStage() {
+		
+	}
+	
 	public void relatePilot(String teamName, String pilotName) throws ExcecaoEquipeCheia {
 		EntityManager manager = factory.createEntityManager();
 		Session session = manager.unwrap(Session.class);

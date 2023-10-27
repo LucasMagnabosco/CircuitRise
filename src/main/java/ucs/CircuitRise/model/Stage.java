@@ -45,6 +45,15 @@ public class Stage implements Serializable{
 	private Set<FastestLap> fastestLap = new HashSet<FastestLap>();
 	
 	
+	public Stage(int id, String name, String date, String time, int laps, int length) {
+		this.id = id;
+		this.name = name;
+		this.date = date;
+		this.time = time;
+		this.laps = laps;
+		this.length = length;
+	}
+	
 	public int getId() {
 		return id;
 	}

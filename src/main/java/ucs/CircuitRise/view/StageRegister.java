@@ -2,13 +2,16 @@ package ucs.CircuitRise.view;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class StageRegister extends JPanel implements ActionListener{
@@ -30,6 +33,12 @@ public class StageRegister extends JPanel implements ActionListener{
 		header.setBounds(10, 11, 924, 65);
 		add(header);
 		header.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Etapas");
+		lblNewLabel.setBounds(387, 11, 126, 31);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 26));
+		header.add(lblNewLabel);
 		
 		ImageIcon icon = new ImageIcon("C:\\Users\\lmagn\\OneDrive\\Área de Trabalho\\Projetos Java\\CircuitRise\\img\\return_icon.png");
         Image img = icon.getImage();
