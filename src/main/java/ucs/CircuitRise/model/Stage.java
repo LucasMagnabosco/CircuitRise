@@ -54,6 +54,11 @@ public class Stage implements Serializable{
 		this.length = length;
 	}
 	
+	public Stage(String name, int id) {
+		this.name = name;
+		this.id = id;
+	}
+
 	public int getId() {
 		return id;
 	}

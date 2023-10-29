@@ -47,8 +47,15 @@ public class DataController {
 		util.commit(manager, team);
 	}
 	
-	public void registerStage() {
-		
+	public void registerStage(String name, String sid) throws ExcecaoEspacoVazio, ExcecaoObjetoJaCadastrado {
+		util.check(name);
+		util.check(sid);
+		int id = Integer.parseInt(sid);
+		EntityManager manager = factory.createEntityManager();
+		String frase = "select count(*) from Stage where stage_name = :value";
+		util.duplicates(manager, frase, name);
+		Stage stage = new Stage(name, id);
+		util.commit(manager, stage);
 	}
 	
 	public void relatePilot(String teamName, String pilotName) throws ExcecaoEquipeCheia {
@@ -144,6 +151,22 @@ public class DataController {
 		manager.close();
 		return teamsArray;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Object[][] stagesToArray(){
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from Stage");
+		List<Stage> stages = (List<Stage>) q.getResultList();
+		Object [][] teamsArray = new Object[stages.size()][1];
+		for(int i=0; i<stages.size();i++) {
+			teamsArray[i][0] = stages.get(i).getName();
+		}
+		session.close();
+		manager.close();
+		return teamsArray;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public Object[][] pilotsToArray() {
 		EntityManager manager = factory.createEntityManager();

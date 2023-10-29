@@ -9,19 +9,36 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import ucs.CircuitRise.controller.DataController;
+import ucs.CircuitRise.exceptions.ExcecaoEspacoVazio;
+import ucs.CircuitRise.exceptions.ExcecaoNotNumber;
+import ucs.CircuitRise.exceptions.ExcecaoObjetoJaCadastrado;
 
 public class StageRegister extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
 	JPanel header = new JPanel();
+	private JTextField tfStageName;
+	private JTextField tfNum;
+	private JTable table_stage;
+	private StageRegister self = this;
 	MainScreen ms;
 	
+	DataController data = new DataController();
+	
 	public StageRegister(MainScreen menu) {
+		JPanel stage_panel = new JPanel();
 		this.ms = menu;
 		setBounds(0, 0, 960, 580);
 		setBackground(new Color(177, 178, 181));
@@ -55,6 +72,46 @@ public class StageRegister extends JPanel implements ActionListener{
 		btnReturn.setContentAreaFilled(false);
 		btnReturn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		header.add(btnReturn);
+		
+		JLabel lblNewLabel1 = new JLabel("Cadastros");
+		lblNewLabel1.setBounds(387, 11, 126, 31);
+		lblNewLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel1.setFont(new Font("Arial", Font.BOLD, 26));
+		header.add(lblNewLabel1);
+		String[] opcoes = {"Stage"};
+		JComboBox cbEntity = new JComboBox<Object>(opcoes);
+		cbEntity.setName("cbEntities");
+		cbEntity.setFont(new Font("Arial", Font.PLAIN, 11));
+		cbEntity.addActionListener(this);
+		
+		cbEntity.setBackground(new Color(177, 178, 181));
+		cbEntity.setBounds(784, 87, 150, 22);
+		add(cbEntity);
+		
+		JButton btn = new JButton("Relacionar");
+		btn.setBounds(682, 174, 100, 53);
+		btn.addActionListener(this);
+		add(btn);
+		
+		JButton btnStageRegister = new JButton("Cadastrar");
+		btnStageRegister.setFont(new Font("Arial", Font.PLAIN, 11));
+		btnStageRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					data.registerStage(tfStageName.getText(), tfNum.getText());
+					updateStage();
+					JOptionPane.showMessageDialog(self, "Piloto cadastrado com sucesso");
+				} catch (ExcecaoEspacoVazio e1) {
+					JOptionPane.showMessageDialog(self, e1.getMessage());
+				} catch (ExcecaoObjetoJaCadastrado e1) {
+					JOptionPane.showMessageDialog(self, e1.getMessage());
+				}
+			}
+		});
+		btnStageRegister.setBounds(620, 57, 100, 23);
+		stage_panel.add(btnStageRegister);
+		
+		return;
 	}
 
 	@Override
@@ -67,6 +124,13 @@ public class StageRegister extends JPanel implements ActionListener{
 			}
 		}
 		
+	}
+	
+	public void updateStage() {
+		DefaultTableModel model = (DefaultTableModel) table_stage.getModel();
+		String[] columns = {"Equipes"};
+		model.setDataVector(data.stagesToArray(), columns);
+		model.fireTableDataChanged();
 	}
 
 }
