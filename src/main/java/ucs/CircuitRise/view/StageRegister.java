@@ -51,12 +51,6 @@ public class StageRegister extends JPanel implements ActionListener{
 		add(header);
 		header.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Etapas");
-		lblNewLabel.setBounds(387, 11, 126, 31);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 26));
-		header.add(lblNewLabel);
-		
 		ImageIcon icon = new ImageIcon("C:\\Users\\lmagn\\OneDrive\\Área de Trabalho\\Projetos Java\\CircuitRise\\img\\return_icon.png");
         Image img = icon.getImage();
         Image newImg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
