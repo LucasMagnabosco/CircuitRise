@@ -67,20 +67,6 @@ public class StageRegister extends JPanel implements ActionListener{
 		btnReturn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		header.add(btnReturn);
 		
-		JLabel lblNewLabel1 = new JLabel("Cadastros");
-		lblNewLabel1.setBounds(387, 11, 126, 31);
-		lblNewLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel1.setFont(new Font("Arial", Font.BOLD, 26));
-		header.add(lblNewLabel1);
-		String[] opcoes = {"Stage"};
-		JComboBox cbEntity = new JComboBox<Object>(opcoes);
-		cbEntity.setName("cbEntities");
-		cbEntity.setFont(new Font("Arial", Font.PLAIN, 11));
-		cbEntity.addActionListener(this);
-		
-		cbEntity.setBackground(new Color(177, 178, 181));
-		cbEntity.setBounds(784, 87, 150, 22);
-		add(cbEntity);
 		
 		JButton btn = new JButton("Relacionar");
 		btn.setBounds(682, 174, 100, 53);
