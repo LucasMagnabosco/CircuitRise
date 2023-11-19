@@ -83,54 +83,6 @@ public class StageRegister extends JPanel implements ActionListener{
 		add(panel);
 		panel.setLayout(null);
 		
-		JComboBox<?> cbSeason = new JComboBox<Object>(data.seasonsToArray());
-		cbSeason.setBounds(20, 43, 139, 22);
-		panel.add(cbSeason);
-		
-		JLabel lblSeason = new JLabel("Temporada");
-		lblSeason.setBounds(20, 11, 102, 14);
-		lblSeason.setFont(new Font("Arial", Font.BOLD, 16));
-		panel.add(lblSeason);
-		
-		JLabel lblStages = new JLabel("Etapas");
-		lblStages.setBounds(20, 88, 65, 14);
-		lblStages.setFont(new Font("Arial", Font.BOLD, 16));
-		panel.add(lblStages);
-		
-		JList<?> list = new JList<Object>();
-		list.setBackground(new Color(195, 196, 199));
-		rolagem1 = new JScrollPane(list);
-		rolagem1.setBackground(new Color(195, 196, 199));
-		rolagem1.getViewport().setBackground(new Color(195, 196, 199));
-		rolagem1.getVerticalScrollBar().setBackground(Color.GRAY);
-		rolagem1.setBounds(20, 132, 139, 167);
-		panel.add(rolagem1);
-	
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String teste = "";
-		int option;
-		if(e.getSource() instanceof JButton) {
-			teste = ((JButton) e.getSource()).getText();
-			if(((JButton) e.getSource()).getName()!= null && ((JButton) e.getSource()).getName().equals("btnReturn")) {
-				ms.menuReturn();
-			}
-		}
-		else if(e.getSource() instanceof JComboBox) {
-			teste = (String) ((JComboBox<?>) e.getSource()).getSelectedItem();	
-		}
-		
-	}
-	
-	public void teamList() {
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(177, 178, 181));
-		panel.setBounds(20, 87, 754, 375);
-		add(panel);
-		panel.setLayout(null);
-		
 		JLabel lblSeason = new JLabel("Temporada");
 		lblSeason.setBounds(490, 11, 87, 19);
 		lblSeason.setFont(new Font("Arial", Font.BOLD, 16));
@@ -162,6 +114,58 @@ public class StageRegister extends JPanel implements ActionListener{
 		lblPilot.setBounds(325, 13, 63, 14);
 		lblPilot.setFont(new Font("Arial", Font.BOLD, 16));
 		panel.add(lblPilot);
+	
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String teste = "";
+		int option;
+		if(e.getSource() instanceof JButton) {
+			teste = ((JButton) e.getSource()).getText();
+			if(((JButton) e.getSource()).getName()!= null && ((JButton) e.getSource()).getName().equals("btnReturn")) {
+				ms.menuReturn();
+			}
+		}
+		else if(e.getSource() instanceof JComboBox) {
+			teste = (String) ((JComboBox<?>) e.getSource()).getSelectedItem();	
+		}
+		
+	}
+	
+	public void stagePanel() {
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(177, 178, 181));
+		panel.setBounds(20, 87, 754, 375);
+		add(panel);
+		panel.setLayout(null);
+		
+		JComboBox<?> cbSeason = new JComboBox<Object>(data.seasonsToArray());
+		cbSeason.setBounds(20, 43, 139, 22);
+		panel.add(cbSeason);
+		
+		JLabel lblSeason = new JLabel("Temporada");
+		lblSeason.setBounds(20, 11, 102, 14);
+		lblSeason.setFont(new Font("Arial", Font.BOLD, 16));
+		panel.add(lblSeason);
+		
+		JLabel lblStages = new JLabel("Etapas");
+		lblStages.setBounds(20, 88, 65, 14);
+		lblStages.setFont(new Font("Arial", Font.BOLD, 16));
+		panel.add(lblStages);
+		
+		JList<?> list = new JList<Object>();
+		list.setBackground(new Color(195, 196, 199));
+		rolagem1 = new JScrollPane(list);
+		rolagem1.setBackground(new Color(195, 196, 199));
+		rolagem1.getViewport().setBackground(new Color(195, 196, 199));
+		rolagem1.getVerticalScrollBar().setBackground(Color.GRAY);
+		rolagem1.setBounds(20, 132, 139, 167);
+		panel.add(rolagem1);
+	}
+	
+	public void seasonPanel() {
+		
 		
 	}
 }
