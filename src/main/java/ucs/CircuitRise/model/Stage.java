@@ -1,8 +1,6 @@
 package ucs.CircuitRise.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -39,7 +37,7 @@ public class Stage implements Serializable{
 	
 	@Embedded
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-	private Collection<FinalTime> finalTime = new ArrayList<FinalTime>();
+	private Set<FinalTime> finalTime = new HashSet<FinalTime>();
 	@Embedded
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	private Set<FastestLap> fastestLap = new HashSet<FastestLap>();

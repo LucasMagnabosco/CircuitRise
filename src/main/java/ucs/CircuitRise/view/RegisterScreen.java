@@ -27,7 +27,6 @@ import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import java.awt.SystemColor;
 
 
 
@@ -110,7 +109,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		add(lblTableName1);
 		
 		Object[][] rows = data.pilotsToArray();
-		String[] columns = {"Pilotos", "Equipe"};
+		String[] columns = {"Pilotos", "Equipes"};
 		table_pilot = new JTable();
 		table_pilot.setModel(new DefaultTableModel(rows, columns));
 		table_pilot.getColumnModel().getColumn(0).setPreferredWidth(109);
@@ -129,7 +128,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		add(rolagem1);
 		
 		Object[][] rows2 = data.teamsToArray();
-		String[] columns2 = {"Equipe"};
+		String[] columns2 = {"Equipes"};
 		table_team = new JTable();
 		table_team.setModel(new DefaultTableModel(rows2, columns2));
 		table_team.setShowVerticalLines(false);
@@ -165,14 +164,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 				ms.menuReturn();
 			}
 		}else if(e.getSource() instanceof JComboBox) {
-			option = ((JComboBox) e.getSource()).getSelectedIndex();
-			if(option == 0) {
-				teste = "Pilotos";
-			}
-			else if(option == 1){
-				teste = "Equipes";
-			}
-			
+			teste = (String) ((JComboBox) e.getSource()).getSelectedItem();
 		}
 		try {
 			if(teste.equals("Pilotos")) {

@@ -105,4 +105,8 @@ public class Team implements Serializable{
 	public void setPilot2(Pilot pilot2) {
 		pilots.set(1, pilot2);
 	}
+	@Override
+	public String toString() {
+		return name;
+	}
 }

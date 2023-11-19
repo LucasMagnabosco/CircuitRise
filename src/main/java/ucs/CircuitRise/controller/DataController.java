@@ -13,6 +13,7 @@ import ucs.CircuitRise.exceptions.ExcecaoEquipeCheia;
 import ucs.CircuitRise.exceptions.ExcecaoEspacoVazio;
 import ucs.CircuitRise.exceptions.ExcecaoNotNumber;
 import ucs.CircuitRise.exceptions.ExcecaoObjetoJaCadastrado;
+import ucs.CircuitRise.model.FinalTable;
 import ucs.CircuitRise.model.Pilot;
 import ucs.CircuitRise.model.Stage;
 import ucs.CircuitRise.model.Team;
@@ -47,8 +48,21 @@ public class DataController {
 		util.commit(manager, team);
 	}
 	
-	public void registerStage() {
-		
+	public void registerStage(String Sid, String name, String date, String time, String Slaps, String Slength) throws ExcecaoEspacoVazio, ExcecaoNotNumber, ExcecaoObjetoJaCadastrado {
+		if(name.isEmpty() || date.isEmpty() || time.isEmpty()) {
+			throw new ExcecaoEspacoVazio();
+		}
+		util.checkNum(Sid);
+		util.checkNum(Slaps);
+		util.checkNum(Slength);
+		int id = Integer.parseInt(Sid);
+		int laps = Integer.parseInt(Slaps);
+		int length = Integer.parseInt(Slength);
+		String frase = "select count(*) from Stage where stage_name = :value";
+		EntityManager manager = factory.createEntityManager();
+		util.duplicates(manager,  frase,  name);
+		Stage stage = new Stage(id, name, date, time, laps, length);
+		util.commit(manager, stage);
 	}
 	
 	public void relatePilot(String teamName, String pilotName) throws ExcecaoEquipeCheia {
@@ -162,6 +176,19 @@ public class DataController {
 		session.close();
 		manager.close();
 		return pilotsArray;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String[] seasonsToArray() {
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from FinalTable");
+		List<FinalTable> seasonList = (List<FinalTable>) q.getResultList();
+		String[] seasons = new String[seasonList.size()];
+		for(int i=0; i<seasonList.size(); i++) {
+			seasons[i] = seasonList.get(i).toString();
+		}
+		return seasons;
 	}
 	
 }

@@ -113,5 +113,9 @@ public class Pilot implements Serializable{
 		this.fastestLap = fastestLap;
 	}
 	
+	@Override
+	public String toString() {
+		return name;
+	}
 	
 }

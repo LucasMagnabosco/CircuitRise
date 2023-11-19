@@ -1,8 +1,6 @@
  package ucs.CircuitRise.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,10 +27,14 @@ public class FinalTable implements Serializable{
 	
 	@Embedded
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-	private Collection<Pilot> pilots = new ArrayList<Pilot>();
+	private Set<Pilot> pilots = new HashSet<Pilot>();
 	@Embedded
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	private Set<Team> teams = new HashSet<Team>();
+	
+	@Embedded
+	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
+	private Set<Stage> stages = new HashSet<Stage>();
 	
 	
 	public int getYear() {
@@ -41,10 +43,10 @@ public class FinalTable implements Serializable{
 	public void setYear(int year) {
 		this.year = year;
 	}
-	public Collection<Pilot> getPilots() {
+	public Set<Pilot> getPilots() {
 		return pilots;
 	}
-	public void setPilots(Collection<Pilot> pilots) {
+	public void setPilots(Set<Pilot> pilots) {
 		this.pilots = pilots;
 	}
 	public Set<Team> getTeams() {
@@ -52,6 +54,16 @@ public class FinalTable implements Serializable{
 	}
 	public void setTeams(Set<Team> teams) {
 		this.teams = teams;
+	}
+	public Set<Stage> getStages() {
+		return stages;
+	}
+	public void setStages(Set<Stage> stages) {
+		this.stages = stages;
+	}
+	
+	public String toString() {
+		return "Temporada " + Integer.toString(year);
 	}
 	
 }
