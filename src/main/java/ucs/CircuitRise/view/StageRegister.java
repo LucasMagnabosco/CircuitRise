@@ -166,6 +166,5 @@ public class StageRegister extends JPanel implements ActionListener{
 	
 	public void seasonPanel() {
 		
-		
 	}
 }
