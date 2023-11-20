@@ -1,7 +1,9 @@
  package ucs.CircuitRise.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -36,6 +38,9 @@ public class FinalTable implements Serializable{
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	private Set<Stage> stages = new HashSet<Stage>();
 	
+	public FinalTable(int year) {
+		this.year = year;
+	}
 	
 	public int getYear() {
 		return year;
@@ -43,20 +48,23 @@ public class FinalTable implements Serializable{
 	public void setYear(int year) {
 		this.year = year;
 	}
-	public Set<Pilot> getPilots() {
-		return pilots;
+	public List<Pilot> getPilots() {
+		List<Pilot> p = new ArrayList<Pilot>(pilots);
+		return p;
 	}
 	public void setPilots(Set<Pilot> pilots) {
 		this.pilots = pilots;
 	}
-	public Set<Team> getTeams() {
-		return teams;
+	public List<Team> getTeams() {
+		List<Team> t = new ArrayList<Team>(teams);
+		return t;
 	}
 	public void setTeams(Set<Team> teams) {
 		this.teams = teams;
 	}
-	public Set<Stage> getStages() {
-		return stages;
+	public List<Stage> getStages() {
+		List<Stage> s = new ArrayList<Stage>(stages);
+		return s;
 	}
 	public void setStages(Set<Stage> stages) {
 		this.stages = stages;

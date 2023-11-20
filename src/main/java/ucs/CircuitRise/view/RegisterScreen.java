@@ -32,7 +32,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class RegisterScreen extends JPanel implements ActionListener{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 789L;
 
 	JPanel header = new JPanel();
 	JPanel Pilot_form;
@@ -109,7 +109,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		add(lblTableName1);
 		
 		Object[][] rows = data.pilotsToArray();
-		String[] columns = {"Pilotos", "Equipes"};
+		String[] columns = {"Pilotos", "Equipe"};
 		table_pilot = new JTable();
 		table_pilot.setModel(new DefaultTableModel(rows, columns));
 		table_pilot.getColumnModel().getColumn(0).setPreferredWidth(109);

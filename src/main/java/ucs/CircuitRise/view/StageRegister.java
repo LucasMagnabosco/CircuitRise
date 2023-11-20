@@ -6,7 +6,11 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,19 +20,29 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import ucs.CircuitRise.controller.DataController;
+import ucs.CircuitRise.exceptions.ExcecaoEspacoVazio;
+import ucs.CircuitRise.exceptions.ExcecaoNotNumber;
+import ucs.CircuitRise.exceptions.ExcecaoObjetoJaCadastrado;
+import ucs.CircuitRise.model.Pilot;
+import ucs.CircuitRise.model.Team;
 
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class StageRegister extends JPanel implements ActionListener{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 367L;
 
 	JPanel header = new JPanel();
 	MainScreen ms;
+	JPanel stage_scrn, season_scrn;
 	private JTextField tfYear;
 	private JScrollPane rolagem1;
+	private JScrollPane rolagem2;
+	JList<Pilot> pilotList;
+	JList<Team> teamList;
 	
 	DataController data = new DataController();
 	
@@ -77,43 +91,11 @@ public class StageRegister extends JPanel implements ActionListener{
 		cbEntity.setBounds(784, 87, 150, 22);
 		add(cbEntity);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(177, 178, 181));
-		panel.setBounds(20, 87, 754, 375);
-		add(panel);
-		panel.setLayout(null);
+		season_scrn = this.seasonPanel();
+		stage_scrn = this.stagePanel();
+		add(season_scrn);
+		add(stage_scrn);
 		
-		JLabel lblSeason = new JLabel("Temporada");
-		lblSeason.setBounds(490, 11, 87, 19);
-		lblSeason.setFont(new Font("Arial", Font.BOLD, 16));
-		panel.add(lblSeason);
-		
-		tfYear = new JTextField();
-		tfYear.setBounds(490, 45, 86, 20);
-		tfYear.setColumns(10);
-		panel.add(tfYear);
-		
-		JList<?> teamList = new JList<Object>();
-		teamList.setBounds(26, 47, 195, 257);
-		panel.add(teamList);
-		
-		JList<?> pilotList = new JList<Object>();
-		pilotList.setBounds(257, 47, 195, 257);
-		panel.add(pilotList);
-		
-		JButton btnNewButton = new JButton("Cadastrar");
-		btnNewButton.setBounds(643, 281, 89, 23);
-		panel.add(btnNewButton);
-		
-		JLabel lblTeam = new JLabel("Equipes");
-		lblTeam.setBounds(92, 13, 63, 14);
-		lblTeam.setFont(new Font("Arial", Font.BOLD, 16));
-		panel.add(lblTeam);
-		
-		JLabel lblPilot = new JLabel("Pilotos");
-		lblPilot.setBounds(325, 13, 63, 14);
-		lblPilot.setFont(new Font("Arial", Font.BOLD, 16));
-		panel.add(lblPilot);
 	
 	}
 
@@ -131,9 +113,21 @@ public class StageRegister extends JPanel implements ActionListener{
 			teste = (String) ((JComboBox<?>) e.getSource()).getSelectedItem();	
 		}
 		
+		try {
+			if(teste.equals("Temporadas")) {
+				
+			}else if(teste.equals("Etapas")) {
+				
+			}else {
+				JOptionPane.showMessageDialog(null, "Pelo menos uma das opções não foram escolhidas");
+			}
+		}catch() {
+			
+		}
+		
 	}
 	
-	public void stagePanel() {
+	public JPanel stagePanel() {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(177, 178, 181));
 		panel.setBounds(20, 87, 754, 375);
@@ -162,9 +156,83 @@ public class StageRegister extends JPanel implements ActionListener{
 		rolagem1.getVerticalScrollBar().setBackground(Color.GRAY);
 		rolagem1.setBounds(20, 132, 139, 167);
 		panel.add(rolagem1);
+		return panel;
 	}
 	
-	public void seasonPanel() {
+	public JPanel seasonPanel() {
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(177, 178, 181));
+		panel.setBounds(20, 87, 754, 375);
+		add(panel);
+		panel.setLayout(null);
 		
+		JLabel lblSeason = new JLabel("Temporada");
+		lblSeason.setBounds(490, 11, 87, 19);
+		lblSeason.setFont(new Font("Arial", Font.BOLD, 16));
+		panel.add(lblSeason);
+		
+		tfYear = new JTextField();
+		tfYear.setBounds(490, 45, 86, 20);
+		tfYear.setColumns(10);
+		panel.add(tfYear);
+		
+		
+		List<Team> teams = data.getTeams();
+		DefaultListModel<Team> listModel = new DefaultListModel<Team>();
+		for(Team t : teams) {
+			listModel.addElement(t);
+		}
+		
+		teamList = new JList<>(listModel);
+		teamList.setBackground(new Color(195, 196, 199));
+		rolagem1 = new JScrollPane(teamList);
+		rolagem1.setBackground(new Color(195, 196, 199));
+		rolagem1.getViewport().setBackground(new Color(195, 196, 199));
+		rolagem1.getVerticalScrollBar().setBackground(Color.GRAY);
+		rolagem1.setBounds(26, 47, 195, 257);
+		panel.add(rolagem1);
+		
+		List<Pilot> pilots = data.getPilots();
+		DefaultListModel<Pilot> listModel2 = new DefaultListModel<Pilot>();
+		for(Pilot p : pilots) {
+			listModel2.addElement(p);
+		}
+		pilotList = new JList<>(listModel2);
+		pilotList.setBackground(new Color(195, 196, 199));
+		rolagem2 = new JScrollPane(pilotList);
+		rolagem2.setBackground(new Color(195, 196, 199));
+		rolagem2.getViewport().setBackground(new Color(195, 196, 199));
+		rolagem2.getVerticalScrollBar().setBackground(Color.GRAY);
+		rolagem2.setBounds(257, 47, 195, 257);
+		panel.add(rolagem2);
+		
+		JLabel lblTeam = new JLabel("Equipes");
+		lblTeam.setBounds(92, 13, 63, 14);
+		lblTeam.setFont(new Font("Arial", Font.BOLD, 16));
+		panel.add(lblTeam);
+		
+		JLabel lblPilot = new JLabel("Pilotos");
+		lblPilot.setBounds(325, 13, 63, 14);
+		lblPilot.setFont(new Font("Arial", Font.BOLD, 16));
+		panel.add(lblPilot);
+		
+		JButton btnRegister = new JButton("Cadastrar");
+		btnRegister.setBounds(635, 281, 97, 23);
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				List<Pilot> selectedP = pilotList.getSelectedValuesList();
+				Set<Pilot> pilots = new HashSet<Pilot>(selectedP);
+				List<Team> selectedT = teamList.getSelectedValuesList();
+				Set<Team> teams = new HashSet<Team>(selectedT);
+				try {
+					data.registerSeason(tfYear.getText(), pilots, teams);
+				} catch (ExcecaoEspacoVazio | ExcecaoNotNumber | ExcecaoObjetoJaCadastrado e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+				
+			}
+		});
+		panel.add(btnRegister);
+		return panel;
 	}
 }
