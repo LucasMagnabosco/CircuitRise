@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Embeddable
 @Table(name="TEAM")
 
 public class Team implements Serializable{
@@ -20,11 +20,12 @@ public class Team implements Serializable{
 	private static final long serialVersionUID = 20L;
 	
 	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+	
 	@Column(name="TEAM_NAME", length=40, nullable=false)
 	private String name;
-	@Id
-	@Column(name="TEAM_ID")
-	private int id;
 	@Column(name="TEAM_POINTS")
 	private int points;
 	@Column(name="TEAM_WINS")
@@ -39,9 +40,8 @@ public class Team implements Serializable{
 	public Team() {
 	}
 	
-	public Team(String name, int id) {
+	public Team(String name) {
 		this.name = name;
-		this.id = id;
 	}
 	
 	public void teamUpdate() {
@@ -87,13 +87,10 @@ public class Team implements Serializable{
 	public void setPodiums(int podiums) {
 		this.podiums = podiums;
 	}
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
-
+	
 	public Pilot getPilot1() {
 		return pilots.get(0);
 	}

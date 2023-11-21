@@ -19,7 +19,7 @@
         <property name="hibernate.connection.driver_class" 
         	value="org.postgresql.Driver" />
         <property name="javax.persistence.jdbc.url"
-            value="jdbc:postgresql://localhost:5432/circuit_rise" />
+            value="jdbc:postgresql://localhost:5432/CircuitRise" />
         <property name="javax.persistence.jdbc.user"
             value="postgres" />
         <property name="javax.persistence.jdbc.password"

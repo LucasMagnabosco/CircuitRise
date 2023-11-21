@@ -8,18 +8,18 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Embeddable
 @Table(name="PILOT")
 
 
@@ -30,9 +30,11 @@ public class Pilot implements Serializable{
 	
 	
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+	
 	@Column(name="PILOT_NUM")
 	private int number;
-	
 	@Column(name="PILOT_POINTS")
 	private int points;
 	@Column(name="PILOT_WINS")
@@ -43,7 +45,9 @@ public class Pilot implements Serializable{
 	private String name;
 	
 	
-	@Column(name="PILOT_TEAM")
+	
+	@ManyToOne
+    @JoinColumn(name = "team_id")
     private Team team;
 		
 	@Embedded

@@ -171,6 +171,7 @@ public class StageRegister extends JPanel implements ActionListener{
 		
 		season_scrn = this.seasonPanel();
 		stage_scrn = this.stagePanel();
+		stage_scrn.setVisible(false);
 		add(season_scrn);
 		add(stage_scrn);
 		
@@ -244,7 +245,7 @@ public class StageRegister extends JPanel implements ActionListener{
 				season_scrn.setVisible(false);
 				stage_scrn.setVisible(true);
 			}else {
-				JOptionPane.showMessageDialog(null, "Pelo menos uma das opções não foram escolhidas");
+				JOptionPane.showMessageDialog(this, "Pelo menos uma das opções não foram escolhidas");
 			}
 		//}catch() {
 			
@@ -359,7 +360,7 @@ public class StageRegister extends JPanel implements ActionListener{
 				try {
 					data.registerSeason(tfYear.getText(), pilots, teams);
 				} catch (ExcecaoEspacoVazio | ExcecaoNotNumber | ExcecaoObjetoJaCadastrado e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage());
+					JOptionPane.showMessageDialog(this, e1.getMessage());
 				}
 				
 			}

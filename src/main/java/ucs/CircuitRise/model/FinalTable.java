@@ -32,13 +32,13 @@ public class FinalTable implements Serializable{
 	
 	@ManyToMany (cascade = { CascadeType.ALL })
     @JoinTable(name = "SEASON_PILOTS",
-    		joinColumns =  @JoinColumn(name = "PILOT_NUM"),
+    		joinColumns =  @JoinColumn(name = "pilot_id"),
             inverseJoinColumns = @JoinColumn(name = "SEASON_YEAR"))
 	private Set<Pilot> pilots = new HashSet<Pilot>();
 	
 	@ManyToMany (cascade = { CascadeType.ALL })
     @JoinTable(name = "SEASON_TEAMS",
-    		joinColumns =  @JoinColumn(name = "TEAM_NAME") ,
+    		joinColumns =  @JoinColumn(name = "team_id") ,
             inverseJoinColumns = @JoinColumn(name = "SEASON_YEAR"))
 	private Set<Team> teams = new HashSet<Team>();
 	

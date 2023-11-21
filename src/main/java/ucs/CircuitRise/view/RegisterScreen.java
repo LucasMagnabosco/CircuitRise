@@ -41,7 +41,6 @@ public class RegisterScreen extends JPanel implements ActionListener{
 	private JTextField tfPilotName;
 	private JTextField tfTeamName;
 	private JTextField tfNum;
-	private JTextField tfId;
 	private JTable table_pilot;
 	private JTable table_team;
 	private RegisterScreen self = this;
@@ -289,24 +288,14 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		team_panel.add(tfTeamName);
 		tfTeamName.setColumns(10);
 		
-		tfId = new JTextField();
-		tfId.setFont(new Font("Arial", Font.PLAIN, 11));
-		tfId.setBounds(334, 36, 36, 20);
-		team_panel.add(tfId);
-		tfId.setColumns(10);
-		
-		JLabel lblId = new JLabel("Identificador");
-		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblId.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblId.setBounds(261, 38, 59, 14);
-		team_panel.add(lblId);
+	
 		
 		JButton btnTeamRegister = new JButton("Cadastrar");
 		btnTeamRegister.setFont(new Font("Arial", Font.PLAIN, 11));
 		btnTeamRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					data.registerTeam(tfTeamName.getText(), tfId.getText());
+					data.registerTeam(tfTeamName.getText());
 					updateTeam();
 				} catch (ExcecaoEspacoVazio | ExcecaoObjetoJaCadastrado | ExcecaoNotNumber e1) {
 					JOptionPane.showMessageDialog(self, e1.getMessage());

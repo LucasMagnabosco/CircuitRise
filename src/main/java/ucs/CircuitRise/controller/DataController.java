@@ -38,14 +38,12 @@ public class DataController {
 	
 	
 	
-	public void registerTeam(String name, String sid) throws ExcecaoEspacoVazio, ExcecaoObjetoJaCadastrado, ExcecaoNotNumber {
+	public void registerTeam(String name) throws ExcecaoEspacoVazio, ExcecaoObjetoJaCadastrado, ExcecaoNotNumber {
 		util.check(name);
-		util.checkNum(sid);
-		int id = Integer.parseInt(sid);
 		EntityManager manager = factory.createEntityManager();
 		String frase = "select count(*) from Team where team_name = :value";
 		util.duplicates(manager,  frase,  name);
-		Team team = new Team(name, id);
+		Team team = new Team(name);
 		util.commit(manager, team);
 	}
 	
