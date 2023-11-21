@@ -27,6 +27,18 @@ public class Utility {
 			throw new ExcecaoObjetoJaCadastrado();
 		}
 	}
+	public void duplicates(EntityManager manager, String frase, int value) throws ExcecaoObjetoJaCadastrado {
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery(frase);
+		q.setParameter("value", value);
+		long count = (Long) q.getSingleResult();
+		if(count>0) {
+			manager.close();
+			session.close();
+			throw new ExcecaoObjetoJaCadastrado();
+		}
+	}
+	
 	public void check(String info) throws ExcecaoEspacoVazio {
 		if(info.isEmpty()) {
 			throw new ExcecaoEspacoVazio();

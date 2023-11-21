@@ -27,13 +27,12 @@ import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import java.awt.SystemColor;
 
 
 
 public class RegisterScreen extends JPanel implements ActionListener{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 789L;
 
 	JPanel header = new JPanel();
 	JPanel Pilot_form;
@@ -129,7 +128,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		add(rolagem1);
 		
 		Object[][] rows2 = data.teamsToArray();
-		String[] columns2 = {"Equipe"};
+		String[] columns2 = {"Equipes"};
 		table_team = new JTable();
 		table_team.setModel(new DefaultTableModel(rows2, columns2));
 		table_team.setShowVerticalLines(false);
@@ -165,14 +164,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 				ms.menuReturn();
 			}
 		}else if(e.getSource() instanceof JComboBox) {
-			option = ((JComboBox) e.getSource()).getSelectedIndex();
-			if(option == 0) {
-				teste = "Pilotos";
-			}
-			else if(option == 1){
-				teste = "Equipes";
-			}
-			
+			teste = (String) ((JComboBox) e.getSource()).getSelectedItem();
 		}
 		try {
 			if(teste.equals("Pilotos")) {

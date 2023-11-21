@@ -1,6 +1,7 @@
 package ucs.CircuitRise.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,6 +14,7 @@ import ucs.CircuitRise.exceptions.ExcecaoEquipeCheia;
 import ucs.CircuitRise.exceptions.ExcecaoEspacoVazio;
 import ucs.CircuitRise.exceptions.ExcecaoNotNumber;
 import ucs.CircuitRise.exceptions.ExcecaoObjetoJaCadastrado;
+import ucs.CircuitRise.model.FinalTable;
 import ucs.CircuitRise.model.Pilot;
 import ucs.CircuitRise.model.Stage;
 import ucs.CircuitRise.model.Team;
@@ -56,6 +58,33 @@ public class DataController {
 		util.duplicates(manager, frase, name);
 		Stage stage = new Stage(name, id);
 		util.commit(manager, stage);
+	}
+		public void registerStage(String Sid, String name, String date, String time, String Slaps, String Slength) throws ExcecaoEspacoVazio, ExcecaoNotNumber, ExcecaoObjetoJaCadastrado {
+		if(name.isEmpty() || date.isEmpty() || time.isEmpty()) {
+			throw new ExcecaoEspacoVazio();
+		}
+		util.checkNum(Sid);
+		util.checkNum(Slaps);
+		util.checkNum(Slength);
+		int id = Integer.parseInt(Sid);
+		int laps = Integer.parseInt(Slaps);
+		int length = Integer.parseInt(Slength);
+		String frase = "select count(*) from Stage where stage_name = :value";
+		EntityManager manager = factory.createEntityManager();
+		util.duplicates(manager,  frase,  name);
+		Stage stage = new Stage(id, name, date, time, laps, length);
+		util.commit(manager, stage);
+	}
+	public void registerSeason(String yearS, Set<Pilot> pilots, Set<Team> teams) throws ExcecaoEspacoVazio, ExcecaoNotNumber, ExcecaoObjetoJaCadastrado {
+		util.checkNum(yearS);
+		int year = Integer.parseInt(yearS);
+		String frase = "select count(*) from FinalTable where season_year = :value";
+		EntityManager manager = factory.createEntityManager();
+		util.duplicates(manager, frase, year);
+		FinalTable season = new FinalTable(year);
+		season.setPilots(pilots);
+		season.setTeams(teams);
+		util.commit(manager, season);
 	}
 	
 	public void relatePilot(String teamName, String pilotName) throws ExcecaoEquipeCheia {
@@ -168,6 +197,27 @@ public class DataController {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Team> getTeams(){
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from Team");
+		List<Team> teams = (List<Team>) q.getResultList();
+		session.close();
+		manager.close();
+		return teams;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Pilot> getPilots() {
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from Pilot");
+		List<Pilot> pilots = (List<Pilot>) q.getResultList();
+		session.close();
+		manager.close();
+		return pilots;
+	}
+	@SuppressWarnings("unchecked")
 	public Object[][] pilotsToArray() {
 		EntityManager manager = factory.createEntityManager();
 		Session session = manager.unwrap(Session.class);
@@ -185,6 +235,19 @@ public class DataController {
 		session.close();
 		manager.close();
 		return pilotsArray;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String[] seasonsToArray() {
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from FinalTable");
+		List<FinalTable> seasonList = (List<FinalTable>) q.getResultList();
+		String[] seasons = new String[seasonList.size()];
+		for(int i=0; i<seasonList.size(); i++) {
+			seasons[i] = seasonList.get(i).toString();
+		}
+		return seasons;
 	}
 	
 }

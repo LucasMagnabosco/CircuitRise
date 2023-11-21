@@ -4,14 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
+@Embeddable
 @Table(name="TEAM")
 
 public class Team implements Serializable{
@@ -19,7 +20,7 @@ public class Team implements Serializable{
 	private static final long serialVersionUID = 20L;
 	
 	
-	@Column(name="TEAM_NAME")
+	@Column(name="TEAM_NAME", length=40, nullable=false)
 	private String name;
 	@Id
 	@Column(name="TEAM_ID")
@@ -104,5 +105,9 @@ public class Team implements Serializable{
 	}
 	public void setPilot2(Pilot pilot2) {
 		pilots.set(1, pilot2);
+	}
+	@Override
+	public String toString() {
+		return name;
 	}
 }

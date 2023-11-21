@@ -1,8 +1,6 @@
 package ucs.CircuitRise.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -10,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,14 +20,13 @@ public class Stage implements Serializable{
 	private static final long serialVersionUID = 30L;
 	
 	@Id
-	@GeneratedValue
 	@Column(name="STAGE_ID")
 	private int id;
-	@Column(name="STAGE_NAME")
+	@Column(name="STAGE_NAME", length=30, nullable=false)
 	private String name;
-	@Column(name="DATE")
+	@Column(name="DATE", length=12, nullable=false)
 	private String date;
-	@Column(name="TIME")
+	@Column(name="TIME", length=6, nullable=false)
 	private String time;
 	@Column(name="LAPS")
 	private int laps;
@@ -39,7 +35,7 @@ public class Stage implements Serializable{
 	
 	@Embedded
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-	private Collection<FinalTime> finalTime = new ArrayList<FinalTime>();
+	private Set<FinalTime> finalTime = new HashSet<FinalTime>();
 	@Embedded
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	private Set<FastestLap> fastestLap = new HashSet<FastestLap>();
@@ -59,6 +55,10 @@ public class Stage implements Serializable{
 		this.id = id;
 	}
 
+	public Stage() {
+		
+	}
+	
 	public int getId() {
 		return id;
 	}
