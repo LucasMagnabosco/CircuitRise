@@ -8,15 +8,18 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
+@Embeddable
 @Table(name="PILOT")
 
 
@@ -29,18 +32,20 @@ public class Pilot implements Serializable{
 	@Id
 	@Column(name="PILOT_NUM")
 	private int number;
+	
 	@Column(name="PILOT_POINTS")
 	private int points;
 	@Column(name="PILOT_WINS")
 	private int wins;
 	@Column(name="PILOT_PODIUM")
 	private int podiums;
-	@Column(name="PILOT_NAME")
+	@Column(name="PILOT_NAME", length=30, nullable=false)
 	private String name;
 	
-	@ManyToOne
-    private Team team;
 	
+	@Column(name="PILOT_TEAM")
+    private Team team;
+		
 	@Embedded
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	private Collection<FinalTime> finalTime = new ArrayList<FinalTime>();
@@ -54,7 +59,11 @@ public class Pilot implements Serializable{
 	}
 	public Pilot() {
 	}
-	
+	public void resetSeason() {
+		this.points = 0;
+		this.podiums = 0;
+		this.wins = 0;
+	}
 	public void countPoints(int pontos) {
 		this.points += pontos;
 	}

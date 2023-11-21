@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,14 +20,13 @@ public class Stage implements Serializable{
 	private static final long serialVersionUID = 30L;
 	
 	@Id
-	@GeneratedValue
 	@Column(name="STAGE_ID")
 	private int id;
-	@Column(name="STAGE_NAME")
+	@Column(name="STAGE_NAME", length=30, nullable=false)
 	private String name;
-	@Column(name="DATE")
+	@Column(name="DATE", length=12, nullable=false)
 	private String date;
-	@Column(name="TIME")
+	@Column(name="TIME", length=6, nullable=false)
 	private String time;
 	@Column(name="LAPS")
 	private int laps;
@@ -50,6 +48,10 @@ public class Stage implements Serializable{
 		this.time = time;
 		this.laps = laps;
 		this.length = length;
+	}
+	
+	public Stage() {
+		
 	}
 	
 	public int getId() {

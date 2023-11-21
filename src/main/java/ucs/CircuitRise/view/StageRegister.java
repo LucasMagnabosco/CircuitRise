@@ -89,6 +89,7 @@ public class StageRegister extends JPanel implements ActionListener{
 		
 		cbEntity.setBackground(new Color(177, 178, 181));
 		cbEntity.setBounds(784, 87, 150, 22);
+		cbEntity.setBackground(new Color(177, 178, 181));
 		add(cbEntity);
 		
 		season_scrn = this.seasonPanel();
@@ -113,17 +114,20 @@ public class StageRegister extends JPanel implements ActionListener{
 			teste = (String) ((JComboBox<?>) e.getSource()).getSelectedItem();	
 		}
 		
-		try {
+		//try {
 			if(teste.equals("Temporadas")) {
+				stage_scrn.setVisible(false);
+				season_scrn.setVisible(true);
 				
 			}else if(teste.equals("Etapas")) {
-				
+				season_scrn.setVisible(false);
+				stage_scrn.setVisible(true);
 			}else {
 				JOptionPane.showMessageDialog(null, "Pelo menos uma das opções não foram escolhidas");
 			}
-		}catch() {
+		//}catch() {
 			
-		}
+		//}
 		
 	}
 	

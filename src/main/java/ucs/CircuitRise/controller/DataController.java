@@ -70,7 +70,7 @@ public class DataController {
 		int year = Integer.parseInt(yearS);
 		String frase = "select count(*) from FinalTable where season_year = :value";
 		EntityManager manager = factory.createEntityManager();
-		util.duplicates(manager, frase, yearS);
+		util.duplicates(manager, frase, year);
 		FinalTable season = new FinalTable(year);
 		season.setPilots(pilots);
 		season.setTeams(teams);

@@ -12,8 +12,11 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name="FINAL_TABLE")
@@ -27,11 +30,16 @@ public class FinalTable implements Serializable{
 	@Column(name="SEASON_YEAR")
 	private int year;
 	
-	@Embedded
-	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
+	@ManyToMany (cascade = { CascadeType.ALL })
+    @JoinTable(name = "SEASON_PILOTS",
+    		joinColumns =  @JoinColumn(name = "PILOT_NUM"),
+            inverseJoinColumns = @JoinColumn(name = "SEASON_YEAR"))
 	private Set<Pilot> pilots = new HashSet<Pilot>();
-	@Embedded
-	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
+	
+	@ManyToMany (cascade = { CascadeType.ALL })
+    @JoinTable(name = "SEASON_TEAMS",
+    		joinColumns =  @JoinColumn(name = "TEAM_NAME") ,
+            inverseJoinColumns = @JoinColumn(name = "SEASON_YEAR"))
 	private Set<Team> teams = new HashSet<Team>();
 	
 	@Embedded
@@ -40,6 +48,8 @@ public class FinalTable implements Serializable{
 	
 	public FinalTable(int year) {
 		this.year = year;
+	}
+	public FinalTable() {
 	}
 	
 	public int getYear() {
