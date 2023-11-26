@@ -204,7 +204,6 @@ public class StageRegister extends JPanel implements ActionListener{
 		for(Team t : teams) {
 			listModel.addElement(t);
 		}
-		
 		teamList = new JList<>(listModel);
 		teamList.setBackground(new Color(195, 196, 199));
 		rolagem1 = new JScrollPane(teamList);
@@ -213,6 +212,8 @@ public class StageRegister extends JPanel implements ActionListener{
 		rolagem1.getVerticalScrollBar().setBackground(Color.GRAY);
 		rolagem1.setBounds(26, 47, 195, 257);
 		panel.add(rolagem1);
+		
+
 		
 		List<Pilot> pilots = data.getPilots();
 		DefaultListModel<Pilot> listModel2 = new DefaultListModel<Pilot>();
@@ -259,4 +260,5 @@ public class StageRegister extends JPanel implements ActionListener{
 		return panel;
 	
 	}
+	
 }

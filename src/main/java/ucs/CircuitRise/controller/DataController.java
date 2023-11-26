@@ -58,12 +58,8 @@ public class DataController {
 		util.commit(manager, stage);
 	}
 		public void registerStage(String Sid, String name, String date, String time, String Slaps, String Slength) throws ExcecaoEspacoVazio, ExcecaoNotNumber, ExcecaoObjetoJaCadastrado {
-		if(name.isEmpty() || date.isEmpty() || time.isEmpty()) {
-			throw new ExcecaoEspacoVazio();
-		}
-		util.checkNum(Sid);
-		util.checkNum(Slaps);
-		util.checkNum(Slength);
+		util.check(name, date, time);
+		util.checkNum(Sid, Slaps, Slength);
 		int id = Integer.parseInt(Sid);
 		int laps = Integer.parseInt(Slaps);
 		int length = Integer.parseInt(Slength);
@@ -80,9 +76,14 @@ public class DataController {
 		EntityManager manager = factory.createEntityManager();
 		util.duplicates(manager, frase, year);
 		FinalTable season = new FinalTable(year);
+		manager.getTransaction().begin();     
+		manager.persist(season);
 		season.setPilots(pilots);
 		season.setTeams(teams);
-		util.commit(manager, season);
+		manager.merge(season);
+		manager.getTransaction().commit();
+		manager.close();
+//		util.commit(manager, season);
 	}
 	
 	public void relatePilot(String teamName, String pilotName) throws ExcecaoEquipeCheia {

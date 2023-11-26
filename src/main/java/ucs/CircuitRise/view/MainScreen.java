@@ -21,12 +21,8 @@ public class MainScreen extends JFrame {
 	private JPanel contentPane;
 	private JLabel lblNewLabel;
 	private CardLayout cardLayout;
+
 	
-
-
-	/**
-	 * Create the frame.
-	 */
 	public MainScreen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 960, 580);
@@ -78,7 +74,9 @@ public class MainScreen extends JFrame {
 		btnRaceRegister.setBounds(657, 209, 193, 52);
 		btnRaceRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				cardLayout.show(cardPanel, "Stage");
+
 			}
 		});
 		contentPane.add(btnRaceRegister);

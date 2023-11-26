@@ -39,17 +39,21 @@ public class Utility {
 		}
 	}
 	
-	public void check(String info) throws ExcecaoEspacoVazio {
-		if(info.isEmpty()) {
-			throw new ExcecaoEspacoVazio();
+	public void check(String... infos) throws ExcecaoEspacoVazio {
+		for(String info: infos) {
+			if(info.isEmpty()) {
+				throw new ExcecaoEspacoVazio();
+			}
 		}
 	}
-	public void checkNum(String info) throws ExcecaoEspacoVazio, ExcecaoNotNumber {
-		if(!info.matches("[0-9]+")) {
-			throw new ExcecaoNotNumber();
-		}
-		if(info.isEmpty()) {
-			throw new ExcecaoEspacoVazio();
+	public void checkNum(String... infos) throws ExcecaoEspacoVazio, ExcecaoNotNumber {
+		for(String info : infos) {
+			if(!info.matches("[0-9]+")) {
+				throw new ExcecaoNotNumber();
+			}
+			if(info.isEmpty()) {
+				throw new ExcecaoEspacoVazio();
+			}
 		}
 	}
 }
