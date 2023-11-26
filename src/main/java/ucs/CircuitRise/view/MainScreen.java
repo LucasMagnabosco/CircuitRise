@@ -39,6 +39,11 @@ public class MainScreen extends JFrame {
 		cardPanel.add(reg, "Register");
 		StageRegister stg = new StageRegister(this);
 		cardPanel.add(stg, "Stage");
+		TeamSelect tsc = new TeamSelect(this);
+		cardPanel.add(tsc, "Team");
+		PilotSelect plt = new PilotSelect(this);
+		cardPanel.add(plt, "Pilot");
+		
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(177, 178, 181));
@@ -77,6 +82,27 @@ public class MainScreen extends JFrame {
 			}
 		});
 		contentPane.add(btnRaceRegister);
+		
+		JButton btnTeamSelect = new JButton("Pontuação Constutores");
+		btnTeamSelect.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnTeamSelect.setBounds(605, 280, 293, 52);
+		btnTeamSelect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(cardPanel, "Team");
+			}
+		});
+		contentPane.add(btnTeamSelect);
+		
+		JButton btnPilotSelect = new JButton("Pontuação Pilotos");
+		btnPilotSelect.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnPilotSelect.setBounds(605, 350, 293, 52);
+		btnPilotSelect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(cardPanel, "Pilot");
+			}
+		});
+		contentPane.add(btnPilotSelect);
+		
 		
 		JButton btnExit = new JButton("Sair");
 		btnExit.setFont(new Font("Arial", Font.PLAIN, 12));

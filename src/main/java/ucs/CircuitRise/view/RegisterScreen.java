@@ -61,7 +61,7 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		add(header);
 		header.setLayout(null);
 		
-		ImageIcon icon = new ImageIcon("C:\\Users\\lmagn\\OneDrive\\Área de Trabalho\\Projetos Java\\CircuitRise\\img\\return_icon.png");
+		ImageIcon icon = new ImageIcon("C:\\Users\\Leonel\\Documents\\GitHub\\CircuitRise\\img\\return_icon.png");
         Image img = icon.getImage();
         Image newImg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 		JButton btnReturn = new JButton("");

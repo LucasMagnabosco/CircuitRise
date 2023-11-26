@@ -164,6 +164,7 @@ public class DataController {
 		session.close();
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	public Object[][] teamsToArray(){
 		EntityManager manager = factory.createEntityManager();
@@ -246,6 +247,31 @@ public class DataController {
 			seasons[i] = seasonList.get(i).toString();
 		}
 		return seasons;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Team> getTeamsInfo(){
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from Team");
+		List<Team> teams = (List<Team>) q.getResultList();
+		session.close();
+		manager.close();
+		return teams;
+	}
+	@SuppressWarnings("unchecked")
+	public Object[][] teamsInfoToArray(){
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from Team");
+		List<Team> teams = (List<Team>) q.getResultList();
+		Object [][] teamsArray = new Object[teams.size()][1];
+		for(int i=0; i<teams.size();i++) {
+			teamsArray[i][0] = teams.get(i).getName();
+		}
+		session.close();
+		manager.close();
+		return teamsArray;
 	}
 	
 }
