@@ -10,18 +10,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,17 +30,11 @@ import ucs.CircuitRise.exceptions.ExcecaoEspacoVazio;
 import ucs.CircuitRise.exceptions.ExcecaoNotNumber;
 import ucs.CircuitRise.exceptions.ExcecaoObjetoJaCadastrado;
 
-import ucs.CircuitRise.controller.DataController;
-import ucs.CircuitRise.exceptions.ExcecaoEspacoVazio;
-import ucs.CircuitRise.exceptions.ExcecaoNotNumber;
-import ucs.CircuitRise.exceptions.ExcecaoObjetoJaCadastrado;
+
 import ucs.CircuitRise.model.Pilot;
+import ucs.CircuitRise.model.Stage;
 import ucs.CircuitRise.model.Team;
 
-import javax.swing.JComboBox;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
 public class StageRegister extends JPanel implements ActionListener{
 
@@ -54,10 +48,13 @@ public class StageRegister extends JPanel implements ActionListener{
 	private JScrollPane rolagem1;
 	private JScrollPane rolagem2;
 	private StageRegister self = this;
+	private JComboBox<Object> cbSeason;
 	JList<Pilot> pilotList;
 	JList<Team> teamList;
+	JList<Stage> stageList;
 	
 	DataController data = new DataController();
+	
 	
 	public StageRegister(MainScreen menu) {
 		
@@ -113,7 +110,6 @@ public class StageRegister extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String teste = "";
-		int option;
 		if(e.getSource() instanceof JButton) {
 			teste = ((JButton) e.getSource()).getText();
 			if(((JButton) e.getSource()).getName()!= null && ((JButton) e.getSource()).getName().equals("btnReturn")) {
@@ -124,7 +120,7 @@ public class StageRegister extends JPanel implements ActionListener{
 			teste = (String) ((JComboBox<?>) e.getSource()).getSelectedItem();	
 		}
 		
-//		steatry {
+//		try {
 			if(teste.equals("Temporadas")) {
 				stage_scrn.setVisible(false);
 				season_scrn.setVisible(true);
@@ -142,13 +138,6 @@ public class StageRegister extends JPanel implements ActionListener{
 		
 	}
 	
-	public void updateStage() {
-		DefaultTableModel model = (DefaultTableModel) table_stage.getModel();
-		String[] columns = {"Equipes"};
-		model.setDataVector(data.stagesToArray(), columns);
-		model.fireTableDataChanged();
-	}
-
 	public JPanel stagePanel() {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(177, 178, 181));
@@ -156,7 +145,7 @@ public class StageRegister extends JPanel implements ActionListener{
 		add(panel);
 		panel.setLayout(null);
 		
-		JComboBox<?> cbSeason = new JComboBox<Object>(data.seasonsToArray());
+		cbSeason = new JComboBox<Object>(data.seasonsToArray());
 		cbSeason.setBounds(20, 43, 139, 22);
 		panel.add(cbSeason);
 		
@@ -170,9 +159,9 @@ public class StageRegister extends JPanel implements ActionListener{
 		lblStages.setFont(new Font("Arial", Font.BOLD, 16));
 		panel.add(lblStages);
 		
-		JList<?> list = new JList<Object>();
-		list.setBackground(new Color(195, 196, 199));
-		rolagem1 = new JScrollPane(list);
+		
+		stageList.setBackground(new Color(195, 196, 199));
+		rolagem1 = new JScrollPane(stageList);
 		rolagem1.setBackground(new Color(195, 196, 199));
 		rolagem1.getViewport().setBackground(new Color(195, 196, 199));
 		rolagem1.getVerticalScrollBar().setBackground(Color.GRAY);
@@ -213,8 +202,6 @@ public class StageRegister extends JPanel implements ActionListener{
 		rolagem1.setBounds(26, 47, 195, 257);
 		panel.add(rolagem1);
 		
-
-		
 		List<Pilot> pilots = data.getPilots();
 		DefaultListModel<Pilot> listModel2 = new DefaultListModel<Pilot>();
 		for(Pilot p : pilots) {
@@ -249,16 +236,54 @@ public class StageRegister extends JPanel implements ActionListener{
 				Set<Team> teams = new HashSet<Team>(selectedT);
 				try {
 					data.registerSeason(tfYear.getText(), pilots, teams);
+					updateCombo();
 				} catch (ExcecaoEspacoVazio | ExcecaoNotNumber | ExcecaoObjetoJaCadastrado e1) {
 					JOptionPane.showMessageDialog(self, e1.getMessage());
 				}
-				
 			}
 		});
 	
 		panel.add(btnRegister);
+		
+		JButton btnDeleteSeason = new JButton("Deletar");
+		btnDeleteSeason.setBounds(635, 247, 97, 23);
+		btnDeleteSeason.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					data.deleteSeason(tfYear.getText());
+					updateCombo();
+					JOptionPane.showMessageDialog(self, "Temporada deletada com sucesso");
+				} catch (ExcecaoEspacoVazio | ExcecaoNotNumber e1) {
+					JOptionPane.showMessageDialog(self, e1.getMessage());
+				}	
+			}
+		});
+		panel.add(btnDeleteSeason);
+		
 		return panel;
 	
 	}
 	
+	@SuppressWarnings("unchecked")
+	private void updateCombo() {
+		JComboBox<?> temp = new JComboBox<Object>(data.seasonsToArray());
+		DefaultComboBoxModel<Object> model = (DefaultComboBoxModel<Object>) temp.getModel();
+		cbSeason.setModel(model);
+	}
+	public void updatePilots() {
+		List<Pilot> listP = data.getPilots();
+		DefaultListModel<Pilot> listM = new DefaultListModel<Pilot>();
+		for(Pilot p : listP) {
+			listM.addElement(p);
+		}
+		pilotList.setModel(listM);
+	}
+	public void updateTeams() {
+		List<Team> listT = data.getTeams();
+		DefaultListModel<Team> listM = new DefaultListModel<Team>();
+		for(Team t : listT) {
+			listM.addElement(t);
+		}
+		teamList.setModel(listM);
+	}
 }

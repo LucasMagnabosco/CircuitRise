@@ -11,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -26,20 +28,24 @@ public class FinalTable implements Serializable{
 	
 	private static final long serialVersionUID = 40L;
 
+//	@Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
+	
 	@Id
 	@Column(name="SEASON_YEAR")
 	private int year;
 	
 	@ManyToMany (cascade = { CascadeType.ALL })
     @JoinTable(name = "SEASON_PILOTS",
-    		joinColumns =  @JoinColumn(name = "pilot_id"),
-            inverseJoinColumns = @JoinColumn(name = "SEASON_YEAR"))
+    		joinColumns =  @JoinColumn(name = "SEASON_YEAR"),
+            inverseJoinColumns  = @JoinColumn(name = "pilot_id"))
 	private Set<Pilot> pilots = new HashSet<Pilot>();
 	
 	@ManyToMany (cascade = { CascadeType.ALL })
     @JoinTable(name = "SEASON_TEAMS",
-    		joinColumns =  @JoinColumn(name = "team_id") ,
-            inverseJoinColumns = @JoinColumn(name = "SEASON_YEAR"))
+    		joinColumns = @JoinColumn(name = "SEASON_YEAR"),
+			inverseJoinColumns =  @JoinColumn(name = "team_id"))
 	private Set<Team> teams = new HashSet<Team>();
 	
 	@Embedded
@@ -57,6 +63,10 @@ public class FinalTable implements Serializable{
 	}
 	public void setYear(int year) {
 		this.year = year;
+	}
+	public void deleteClass() {
+		pilots.removeAll(pilots);
+		teams.removeAll(teams);
 	}
 	public List<Pilot> getPilots() {
 		List<Pilot> p = new ArrayList<Pilot>(pilots);

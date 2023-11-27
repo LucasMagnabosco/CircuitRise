@@ -33,7 +33,7 @@ public class MainScreen extends JFrame {
 		
 		RegisterScreen reg = new RegisterScreen(this);
 		cardPanel.add(reg, "Register");
-		StageRegister stg = new StageRegister(this);
+		final StageRegister stg = new StageRegister(this);
 		cardPanel.add(stg, "Stage");
 		TeamSelect tsc = new TeamSelect(this);
 		cardPanel.add(tsc, "Team");
@@ -74,8 +74,9 @@ public class MainScreen extends JFrame {
 		btnRaceRegister.setBounds(657, 209, 193, 52);
 		btnRaceRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				cardLayout.show(cardPanel, "Stage");
+				stg.updatePilots();
+				stg.updateTeams();
 
 			}
 		});

@@ -83,7 +83,6 @@ public class DataController {
 		manager.merge(season);
 		manager.getTransaction().commit();
 		manager.close();
-//		util.commit(manager, season);
 	}
 	
 	public void relatePilot(String teamName, String pilotName) throws ExcecaoEquipeCheia {
@@ -164,7 +163,21 @@ public class DataController {
 		manager.close();
 		session.close();
 	}
-	
+	public void deleteSeason(String yearS) throws ExcecaoEspacoVazio, ExcecaoNotNumber {
+		util.checkNum(yearS);
+		int year = Integer.parseInt(yearS);
+		EntityManager manager = factory.createEntityManager();
+		Session session = manager.unwrap(Session.class);
+		Query<?> q = session.createQuery("from FinalTable where season_year = :value");
+		q.setParameter("value", year);
+		FinalTable season = (FinalTable)q.getSingleResult();
+		season.deleteClass();
+		manager.getTransaction().begin();	
+		manager.remove(season);
+		manager.getTransaction().commit();
+		manager.close();
+		session.close();
+	}
 	
 	@SuppressWarnings("unchecked")
 	public Object[][] teamsToArray(){
