@@ -1,14 +1,11 @@
 package ucs.CircuitRise.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -50,13 +47,10 @@ public class Pilot implements Serializable{
     @JoinColumn(name = "team_id")
     private Team team;
 		
-	@Embedded
+
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-	private Collection<FinalTime> finalTime = new ArrayList<FinalTime>();
-	@Embedded
-	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-	private Set<FastestLap> fastestLap = new HashSet<FastestLap>();
-	
+	private Set<FinalTime> finalTime = new HashSet<FinalTime>();
+
 	public Pilot(String name, int num) {
 		this.name = name;
 		this.number = num;
@@ -113,17 +107,14 @@ public class Pilot implements Serializable{
 	public void setTeam(Team team) {
 		this.team = team;
 	}
-	public Collection<FinalTime> getFinalTime() {
+	public Set<FinalTime> getFinalTime() {
 		return finalTime;
 	}
-	public void setFinalTime(Collection<FinalTime> finalTime) {
+	public void setFinalTime(Set<FinalTime> finalTime) {
 		this.finalTime = finalTime;
 	}
-	public Set<FastestLap> getFastestLap() {
-		return fastestLap;
-	}
-	public void setFastestLap(Set<FastestLap> fastestLap) {
-		this.fastestLap = fastestLap;
+	public void addTime(FinalTime ft) {
+		finalTime.add(ft);
 	}
 	
 	@Override

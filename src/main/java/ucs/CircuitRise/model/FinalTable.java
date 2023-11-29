@@ -11,8 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -28,21 +26,17 @@ public class FinalTable implements Serializable{
 	
 	private static final long serialVersionUID = 40L;
 
-//	@Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-	
 	@Id
 	@Column(name="SEASON_YEAR")
 	private int year;
 	
-	@ManyToMany (cascade = { CascadeType.ALL })
+	@ManyToMany (fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     @JoinTable(name = "SEASON_PILOTS",
     		joinColumns =  @JoinColumn(name = "SEASON_YEAR"),
             inverseJoinColumns  = @JoinColumn(name = "pilot_id"))
 	private Set<Pilot> pilots = new HashSet<Pilot>();
 	
-	@ManyToMany (cascade = { CascadeType.ALL })
+	@ManyToMany (fetch = FetchType.EAGER, cascade = {CascadeType.ALL })
     @JoinTable(name = "SEASON_TEAMS",
     		joinColumns = @JoinColumn(name = "SEASON_YEAR"),
 			inverseJoinColumns =  @JoinColumn(name = "team_id"))
@@ -50,7 +44,7 @@ public class FinalTable implements Serializable{
 	
 	@Embedded
 	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-	private Set<Stage> stages = new HashSet<Stage>();
+	private Set<Stage> stages = new HashSet<>();
 	
 	public FinalTable(int year) {
 		this.year = year;
@@ -68,6 +62,7 @@ public class FinalTable implements Serializable{
 		pilots.removeAll(pilots);
 		teams.removeAll(teams);
 	}
+	
 	public List<Pilot> getPilots() {
 		List<Pilot> p = new ArrayList<Pilot>(pilots);
 		return p;
@@ -75,6 +70,7 @@ public class FinalTable implements Serializable{
 	public void setPilots(Set<Pilot> pilots) {
 		this.pilots = pilots;
 	}
+	
 	public List<Team> getTeams() {
 		List<Team> t = new ArrayList<Team>(teams);
 		return t;
@@ -82,6 +78,7 @@ public class FinalTable implements Serializable{
 	public void setTeams(Set<Team> teams) {
 		this.teams = teams;
 	}
+	
 	public List<Stage> getStages() {
 		List<Stage> s = new ArrayList<Stage>(stages);
 		return s;
@@ -89,7 +86,13 @@ public class FinalTable implements Serializable{
 	public void setStages(Set<Stage> stages) {
 		this.stages = stages;
 	}
-	
+	public void addStage(Stage stage) {
+		stages.add(stage);
+	}
+	public void removeStage(Stage s) {
+		stages.remove(s);
+	}
+	@Override
 	public String toString() {
 		return "Temporada " + Integer.toString(year);
 	}

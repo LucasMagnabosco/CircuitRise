@@ -54,34 +54,12 @@ public class RegisterScreen extends JPanel implements ActionListener{
 		setBackground(new Color(177, 178, 181));
 		setLayout(null);
 		
-		
-		header.setBorder(new EmptyBorder(0, 0, 0, 0));
-		header.setBackground(new Color(226, 36, 32));
-		header.setBounds(10, 11, 924, 65);
+		String frase = "Cadastros";
+		Header h = new Header(frase);
+		header = h.getHeader(this);
 		add(header);
-		header.setLayout(null);
 		
-		ImageIcon icon = new ImageIcon("C:\\Users\\Leonel\\Documents\\GitHub\\CircuitRise\\img\\return_icon.png");
-        Image img = icon.getImage();
-        Image newImg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-		JButton btnReturn = new JButton("");
-		btnReturn.setName("btnReturn");
-		btnReturn.addActionListener(this);
-		btnReturn.setBackground(new Color(226, 36, 32));
-		btnReturn.setForeground(new Color(226, 36, 32));
-		btnReturn.setIcon(new ImageIcon(newImg));
-		btnReturn.setBounds(10, 14, 38, 40);
-		btnReturn.setBorderPainted(false);
-		btnReturn.setFocusPainted(false);
-		btnReturn.setContentAreaFilled(false);
-		btnReturn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		header.add(btnReturn);
 		
-		JLabel lblNewLabel = new JLabel("Cadastros");
-		lblNewLabel.setBounds(387, 11, 126, 31);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 26));
-		header.add(lblNewLabel);
 		String[] opcoes = {"Pilotos", "Equipes"};
 		JComboBox cbEntity = new JComboBox<Object>(opcoes);
 		cbEntity.setName("cbEntities");
@@ -156,12 +134,8 @@ public class RegisterScreen extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		String teste = "";
-		int option;
 		if(e.getSource() instanceof JButton) {
 			teste = ((JButton) e.getSource()).getText();
-			if(((JButton) e.getSource()).getName()!= null && ((JButton) e.getSource()).getName().equals("btnReturn")) {
-				ms.menuReturn();
-			}
 		}else if(e.getSource() instanceof JComboBox) {
 			teste = (String) ((JComboBox) e.getSource()).getSelectedItem();
 		}
@@ -169,6 +143,9 @@ public class RegisterScreen extends JPanel implements ActionListener{
 			if(teste.equals("Pilotos")) {
 				Team_form.setVisible(false);
 				Pilot_form.setVisible(true);
+			}
+			else if(teste.equals("Return")) {
+				ms.menuReturn();
 			}
 			else if(teste.equals("Equipes")) {
 				Pilot_form.setVisible(false);

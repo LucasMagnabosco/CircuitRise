@@ -1,27 +1,29 @@
 package ucs.CircuitRise.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="STAGE")
 
-public class Stage implements Serializable{
+public class Stage implements Serializable, Comparable<Stage>{
 	
 	private static final long serialVersionUID = 30L;
 	
 	@Id
-	@Column(name="STAGE_ID")
-	private int id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	@Column(name="STAGE_NAME", length=30, nullable=false)
 	private String name;
 	@Column(name="DATE", length=12, nullable=false)
@@ -32,39 +34,31 @@ public class Stage implements Serializable{
 	private int laps;
 	@Column(name="LENGTH")
 	private int length;
-	
-	@Embedded
-	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-	private Set<FinalTime> finalTime = new HashSet<FinalTime>();
-	@Embedded
-	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-	private Set<FastestLap> fastestLap = new HashSet<FastestLap>();
+	@Column(name="SEQUENCE")
+	private int sequence;
 	
 	
-	public Stage(int id, String name, String date, String time, int laps, int length) {
-		this.id = id;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<FinalTime> finalTime = new ArrayList<FinalTime>();
+	
+	
+	public Stage(String name, String date, String time, int laps, int length, int sequence) {
 		this.name = name;
 		this.date = date;
 		this.time = time;
 		this.laps = laps;
 		this.length = length;
-	}
-	
-	public Stage(String name, int id) {
-		this.name = name;
-		this.id = id;
+		this.sequence = sequence;
 	}
 
 	public Stage() {
 		
 	}
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public String getName() {
 		return name;
 	}
@@ -95,5 +89,31 @@ public class Stage implements Serializable{
 	}
 	public void setLength(int length) {
 		this.length = length;
-	}	
+	}
+
+	public int getSequence() {
+		return sequence;
+	}
+	
+
+	public List<FinalTime> getFinalTime() {
+		return finalTime;
+	}
+
+	public void setFinalTime(List<FinalTime> finalTime) {
+		this.finalTime = finalTime;
+	}
+
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
+	}
+	@Override
+	public String toString() {
+		return name;
+	}
+	@Override
+	@Transient
+    public int compareTo(Stage outroStage) {
+        return Integer.compare(this.sequence, outroStage.getSequence());
+    }
 }

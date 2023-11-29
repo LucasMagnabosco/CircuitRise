@@ -9,8 +9,7 @@
       <!-- provedor/implementacao do JPA -->
       <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-      <!-- entidade mapeada -->
-      <class>br.com.caelum.tarefas.modelo.Tarefa</class>
+      
 
       <properties>
         <!-- dados da conexao -->
