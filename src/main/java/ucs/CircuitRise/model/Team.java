@@ -45,21 +45,20 @@ public class Team implements Serializable{
 		this.name = name;
 	}
 	
-//	public void teamUpdate() {
-//		
-//		if(pilots.size()>0) {
-//			Pilot pilot1 = pilots.get(0);
-//			this.points += pilot1.getPoints();
-//			this.wins += pilot1.getWins();
-//			this.podiums = pilot1.getPodiums();
-//		}
-//		if(pilots.size()>1) {
-//			Pilot pilot2 = pilots.get(1);			
-//		}
-//		this.points = pilot1.getPoints() + pilot2.getPoints();
-//		this.wins = pilot1.getWins() + pilot2.getWins();
-//		this.podiums = pilot1.getPodiums() + pilot2.getPodiums();
-//	}
+	public void teamUpdate() {
+		if(pilots.size()>0) {
+			Pilot pilot1 = pilots.get(0);
+			this.points += pilot1.getPoints();
+			this.wins += pilot1.getWins();
+			this.podiums = pilot1.getPodiums();
+		}
+		if(pilots.size()>1) {
+			Pilot pilot2 = pilots.get(1);
+			this.points += pilot2.getPoints();
+			this.wins += pilot2.getWins();
+			this.podiums = pilot2.getPodiums();
+		}
+	}
 	public void addPilot(Pilot p) {
 		pilots.add(p);
 	}

@@ -91,7 +91,7 @@ public class DataController {
 	public void sumTeams(FinalTable year) {
 		List<Team> teams = new ArrayList<>(year.getTeams());
 		for(Team t : teams) {
-			//t.teamUpdate();
+			t.teamUpdate();
 		}
 		EntityManager manager = factory.createEntityManager();
 		manager.getTransaction().begin(); 
@@ -355,6 +355,12 @@ public class DataController {
 		session.close();
 		manager.close();
 		return seasonList;
+	}
+	
+	public FinalTable getSeason(int ano) {
+		EntityManager manager = factory.createEntityManager();
+		FinalTable ft = manager.find(FinalTable.class, ano);
+		return ft;
 	}
 	
 	@SuppressWarnings("unchecked")

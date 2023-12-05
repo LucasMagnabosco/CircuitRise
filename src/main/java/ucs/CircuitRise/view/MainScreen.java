@@ -112,15 +112,8 @@ public class MainScreen extends JFrame implements ActionListener{
 			cardLayout.show(cardPanel, "Stage");
 			stg.updateLists();
 		}else if(teste.equals("Tabela geral")) {
-			//cardLayout.show(cardPanel, "Table");
-			DataController data = new DataController();
-			List<FinalTime> list = data.teste();
+			cardLayout.show(cardPanel, "Table");
 			
-			for(FinalTime f : list) {
-				System.out.println("----------------------------");
-				System.out.println(f.getPilot().getName());
-				System.out.println(f.getFinalTime());
-			}
 			
 			
 			

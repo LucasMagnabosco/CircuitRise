@@ -77,7 +77,6 @@ public class StageRegister extends JPanel implements ActionListener{
 		
 		cbEntity.setBackground(new Color(177, 178, 181));
 		cbEntity.setBounds(784, 87, 150, 22);
-		cbEntity.setBackground(new Color(177, 178, 181));
 		add(cbEntity);
 		
 		season_scrn = this.seasonPanel();
